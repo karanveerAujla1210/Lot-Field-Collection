@@ -219,20 +219,20 @@
           el.innerText = data.length.toLocaleString();
         });
 
-        // 2. Pending Cases KPI card in Admin Dashboard (e.g. 2,840 -> 668)
-        const pendingKpi = document.evaluate("//span[text()='Pending Cases']/following-sibling::div//span[contains(@class,'text-headline-md')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        // 2. Pending Cases KPI card in Admin Dashboard
+        const pendingKpi = document.getElementById("kpi-pending-cases");
         if (pendingKpi) pendingKpi.innerText = data.length.toLocaleString();
 
-        // 3. Customer Queue Header count (e.g. 128 Total -> 668 Total)
+        // 3. Customer Queue Header count
         document.querySelectorAll(".text-secondary, .text-on-surface-variant").forEach(el => {
-          if (el.innerText.includes("Total") && !el.innerText.includes("STAFF")) {
+          if (el.innerText && el.innerText.includes("Total") && !el.innerText.includes("STAFF")) {
             el.innerText = `${data.length} Total Cases`;
           }
         });
 
         // 4. Total Collection Amount KPI card (Sum of repay amounts)
         const totalVolume = data.reduce((acc, curr) => acc + Number(curr.loan_repay_amount || curr.loan_amount || 0), 0);
-        const collKpi = document.evaluate("//span[text()='Total Collection']/following-sibling::div//span[contains(@class,'text-headline-md')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        const collKpi = document.getElementById("kpi-total-collection");
         if (collKpi) collKpi.innerText = `₹${(totalVolume / 10000000).toFixed(2)} Cr`;
 
         // 5. Render customer list cards & table rows
