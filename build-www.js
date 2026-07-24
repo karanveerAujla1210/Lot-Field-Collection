@@ -21,7 +21,7 @@ function copyRecursive(src, dest) {
   }
 }
 
-// Copy screen folders
+// Copy screen folders & root index.html
 const folders = [
   'admin_dashboard',
   'customer_details',
@@ -49,19 +49,6 @@ folders.forEach(folder => {
   copyRecursive(srcPath, destPath);
 });
 
-// Create entry point index.html in www/
-const indexHtmlContent = `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>FinCollect Mobile</title>
-  <script>
-    window.location.href = "login_screen/code.html";
-  </script>
-</head>
-<body>
-</body>
-</html>`;
-
-fs.writeFileSync(path.join(wwwDir, 'index.html'), indexHtmlContent, 'utf8');
-console.log('[Build WWW] Mobile web directory www/ created successfully.');
+// Copy root index.html to www/index.html
+fs.copyFileSync(path.join(rootDir, 'index.html'), path.join(wwwDir, 'index.html'));
+console.log('[Build WWW] Single master portal www/index.html created successfully.');

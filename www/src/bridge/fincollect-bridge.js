@@ -80,7 +80,7 @@
           setTimeout(() => {
             console.log("[FinCollect Bridge] Authentication verified. Session active.");
             if (window.location.pathname.includes("login")) {
-              window.location.href = "../dashboard/code.html";
+              window.location.href = "../index.html";
             }
           }, 1000);
         } catch (err) {
@@ -178,29 +178,63 @@
   function bindDashboardMetrics() {
     if (!supabaseClient) return;
 
-    // Async load live metrics for UI counters if elements exist
-    supabaseClient.from("loans").select("total_outstanding, id", { count: "exact" }).then(({ data, count }) => {
-      const loanCountEl = document.querySelector("#total-loans-counter");
-      if (loanCountEl && count !== null) {
-        loanCountEl.innerText = count.toString();
+    // Fetch live cases from Supabase PostgreSQL database
+    supabaseClient.from("cases").select("*").then(({ data, error }) => {
+      if (error) {
+        console.warn("[FinCollect Bridge] Cases fetch status:", error.message);
+        return;
+      }
+      if (data && data.length > 0) {
+        console.log(`[FinCollect Bridge] Loaded ${data.length} live cases from Supabase.`);
+        document.querySelectorAll(".total-cases-count, #total-loans-counter").forEach(el => {
+          el.innerText = data.length.toLocaleString();
+        });
+        renderLiveCasesUI(data);
+      }
+    });
+
+    // Fetch live users (staff executives)
+    supabaseClient.from("users").select("*").then(({ data, error }) => {
+      if (error) return;
+      if (data && data.length > 0) {
+        console.log(`[FinCollect Bridge] Loaded ${data.length} staff executives from Supabase.`);
+        document.querySelectorAll(".total-staff-count").forEach(el => {
+          el.innerText = data.length.toString();
+        });
       }
     });
   }
 
-  function subscribeRealtimeEvents() {
-    if (!supabaseClient) return;
+  function renderLiveCasesUI(cases) {
+    const listContainer = document.querySelector("#customer-list-container, .customer-cards-list");
+    if (!listContainer) return;
 
-    supabaseClient
-      .channel("fincollect-global-realtime")
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "payments" }, (payload) => {
-        console.log("[Realtime Stream] New Payment Received:", payload.new);
-        showToast(`⚡ Realtime Payment: ₹${payload.new.amount_paid} (Receipt #${payload.new.receipt_number})`);
-      })
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "visits" }, (payload) => {
-        console.log("[Realtime Stream] New Visit Recorded:", payload.new);
-        showToast(`📍 Realtime Visit: ${payload.new.visit_status}`);
-      })
-      .subscribe();
+    listContainer.innerHTML = cases.slice(0, 50).map(c => `
+      <div class="customer-card bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/40 hover:shadow-md transition-all">
+        <div class="flex justify-between items-start">
+          <div>
+            <span class="dpd-chip bg-error-container text-on-error-container font-bold">${c.bucket || '181+ DPD'}</span>
+            <h3 class="font-title-md text-title-md text-on-surface font-bold mt-1">${c.customer_name || 'Customer'}</h3>
+            <p class="text-label-md text-outline">LN: #${c.loan_no}</p>
+          </div>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-600">${c.loan_status || 'OPEN'}</span>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mt-3 py-2 border-y border-outline-variant/30 text-xs">
+          <div>
+            <p class="text-outline uppercase tracking-wider">Loan Amount</p>
+            <p class="font-bold text-on-surface">₹${Number(c.loan_amount || 0).toLocaleString()}</p>
+          </div>
+          <div>
+            <p class="text-outline uppercase tracking-wider">Repay Amount</p>
+            <p class="font-bold text-on-surface">₹${Number(c.loan_repay_amount || 0).toLocaleString()}</p>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <a href="tel:${c.mobile_number || ''}" class="flex-1 text-center py-2 bg-surface-container-high text-primary rounded-lg font-bold text-xs">Call (${c.mobile_number || 'N/A'})</a>
+          <button class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-xs shadow-sm">Field Visit</button>
+        </div>
+      </div>
+    `).join('');
   }
 
   function showToast(msg) {
