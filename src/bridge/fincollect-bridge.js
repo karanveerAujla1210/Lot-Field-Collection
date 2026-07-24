@@ -213,10 +213,31 @@
       }
       if (data && data.length > 0) {
         console.log(`[LOT Field Collection Bridge] Loaded ${data.length} live cases from Supabase.`);
+        
+        // 1. Total Cases Counters (668)
         document.querySelectorAll(".total-cases-count, #total-loans-counter").forEach(el => {
           el.innerText = data.length.toLocaleString();
         });
+
+        // 2. Pending Cases KPI card in Admin Dashboard (e.g. 2,840 -> 668)
+        const pendingKpi = document.evaluate("//span[text()='Pending Cases']/following-sibling::div//span[contains(@class,'text-headline-md')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        if (pendingKpi) pendingKpi.innerText = data.length.toLocaleString();
+
+        // 3. Customer Queue Header count (e.g. 128 Total -> 668 Total)
+        document.querySelectorAll(".text-secondary, .text-on-surface-variant").forEach(el => {
+          if (el.innerText.includes("Total") && !el.innerText.includes("STAFF")) {
+            el.innerText = `${data.length} Total Cases`;
+          }
+        });
+
+        // 4. Total Collection Amount KPI card (Sum of repay amounts)
+        const totalVolume = data.reduce((acc, curr) => acc + Number(curr.loan_repay_amount || curr.loan_amount || 0), 0);
+        const collKpi = document.evaluate("//span[text()='Total Collection']/following-sibling::div//span[contains(@class,'text-headline-md')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        if (collKpi) collKpi.innerText = `₹${(totalVolume / 10000000).toFixed(2)} Cr`;
+
+        // 5. Render customer list cards & table rows
         renderLiveCasesUI(data);
+        renderAdminTableRows(data);
       }
     });
 
@@ -225,9 +246,15 @@
       if (error) return;
       if (data && data.length > 0) {
         console.log(`[LOT Field Collection Bridge] Loaded ${data.length} staff executives from Supabase.`);
+        
+        // Staff counters
         document.querySelectorAll(".total-staff-count").forEach(el => {
           el.innerText = data.length.toString();
         });
+
+        // Staff KPI card in Admin Dashboard (e.g. 142 / 150 -> 10 / 10)
+        const execKpi = document.evaluate("//span[text()='Active Executives']/following-sibling::div//span[contains(@class,'text-headline-md')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        if (execKpi) execKpi.innerText = `${data.length} / ${data.length}`;
       }
     });
   }
@@ -261,6 +288,30 @@
           <button class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-xs shadow-sm">Field Visit</button>
         </div>
       </div>
+    `).join('');
+  }
+
+  function renderAdminTableRows(cases) {
+    const tableBody = document.querySelector("tbody");
+    if (!tableBody || window.location.pathname.includes("staff")) return;
+
+    // Replace table rows with live database cases
+    tableBody.innerHTML = cases.slice(0, 15).map(c => `
+      <tr class="hover:bg-surface-container-low/50 transition-colors group">
+        <td class="px-lg py-md font-bold text-primary">#${c.loan_no}</td>
+        <td class="px-lg py-md font-bold text-on-surface">${c.customer_name || 'N/A'}</td>
+        <td class="px-lg py-md font-bold text-emerald-600">₹${Number(c.loan_repay_amount || c.loan_amount || 0).toLocaleString()}</td>
+        <td class="px-lg py-md text-on-surface-variant">${c.branch_name || c.state_name || 'India'}</td>
+        <td class="px-lg py-md">
+          <span class="px-sm py-1 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-bold inline-flex items-center gap-xs">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> ${c.loan_status || 'OPEN'}
+          </span>
+        </td>
+        <td class="px-lg py-md text-on-surface-variant text-xs">${c.bucket || '181+ DPD'}</td>
+        <td class="px-lg py-md text-right">
+          <button class="material-symbols-outlined text-outline hover:text-primary transition-colors cursor-pointer" data-icon="more_vert">more_vert</button>
+        </td>
+      </tr>
     `).join('');
   }
 
