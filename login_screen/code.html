@@ -225,25 +225,7 @@
             }
         }
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('loginBtn');
-            const originalContent = btn.innerHTML;
-            
-            // Visual Interaction
-            btn.disabled = true;
-            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Authenticating...';
-            
-            setTimeout(() => {
-                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Success';
-                btn.classList.replace('bg-primary', 'bg-tertiary-container');
-                setTimeout(() => {
-                    btn.innerHTML = originalContent;
-                    btn.classList.replace('bg-tertiary-container', 'bg-primary');
-                    btn.disabled = false;
-                }, 1500);
-            }, 1200);
-        });
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../src/bridge/fincollect-bridge.js"></script>

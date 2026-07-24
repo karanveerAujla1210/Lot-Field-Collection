@@ -166,17 +166,17 @@
 <div class="flex-1">
 <div class="flex justify-between items-start">
 <div>
-<h1 class="font-headline-sm text-headline-sm text-on-background">Rajendra Sharma</h1>
-<p class="font-label-md text-label-md text-secondary uppercase tracking-wider">Loan ID: LN-98421004</p>
+<h1 class="font-headline-sm text-headline-sm text-on-background" id="selected-case-name">Rajendra Sharma</h1>
+<p class="font-label-md text-label-md text-secondary uppercase tracking-wider" id="selected-case-loan">Loan ID: LN-98421004</p>
 </div>
-<div class="bg-error-container text-on-error-container px-3 py-1 rounded-full font-label-md text-label-md flex items-center gap-1">
+<div class="bg-error-container text-on-error-container px-3 py-1 rounded-full font-label-md text-label-md flex items-center gap-1" id="selected-case-bucket">
 <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">error</span>
                             64 DPD
                         </div>
 </div>
 <div class="mt-4 flex items-center gap-2">
 <span class="font-body-md text-body-md text-secondary">Risk Level:</span>
-<span class="px-2 py-0.5 bg-error/10 text-error rounded text-[11px] font-bold">CRITICAL</span>
+<span class="px-2 py-0.5 bg-error/10 text-error rounded text-[11px] font-bold" id="selected-case-risk">CRITICAL</span>
 </div>
 </div>
 </div>
@@ -185,22 +185,22 @@
 <section class="grid grid-cols-2 gap-4">
 <div class="bg-surface-container-lowest p-md rounded-xl shadow-[0_2px_8px_0_rgba(0,0,0,0.06)] border border-outline-variant/30">
 <p class="font-label-md text-label-md text-secondary mb-1">Monthly EMI</p>
-<p class="font-title-lg text-title-lg text-primary">₹14,250</p>
+<p class="font-title-lg text-title-lg text-primary" id="selected-case-emi">₹14,250</p>
 </div>
 <div class="bg-surface-container-lowest p-md rounded-xl shadow-[0_2px_8px_0_rgba(0,0,0,0.06)] border border-outline-variant/30">
 <p class="font-label-md text-label-md text-secondary mb-1">Outstanding</p>
-<p class="font-title-lg text-title-lg text-error">₹2,48,900</p>
+<p class="font-title-lg text-title-lg text-error" id="selected-case-outstanding">₹2,48,900</p>
 </div>
 <div class="bg-surface-container-lowest p-md rounded-xl shadow-[0_2px_8px_0_rgba(0,0,0,0.06)] border border-outline-variant/30">
 <p class="font-label-md text-label-md text-secondary mb-1">Loan Tenure</p>
-<p class="font-title-lg text-title-lg text-on-background">36 Months</p>
+<p class="font-title-lg text-title-lg text-on-background" id="selected-case-tenure">36 Months</p>
 <p class="text-[11px] text-secondary mt-1">14 Remaining</p>
 </div>
 <div class="bg-surface-container-lowest p-md rounded-xl shadow-[0_2px_8px_0_rgba(0,0,0,0.06)] border border-outline-variant/30">
 <p class="font-label-md text-label-md text-secondary mb-1">Status</p>
 <div class="flex items-center gap-2">
 <div class="w-2 h-2 rounded-full bg-error animate-pulse"></div>
-<p class="font-title-lg text-title-lg text-on-background">Delinquent</p>
+<p class="font-title-lg text-title-lg text-on-background" id="selected-case-status">Delinquent</p>
 </div>
 </div>
 </section>
@@ -211,12 +211,12 @@
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-secondary">phone</span>
 <div>
-<p class="font-body-md text-body-md text-on-background">+91 98765-43210</p>
+<p class="font-body-md text-body-md text-on-background" id="selected-case-phone">+91 98765-43210</p>
 <p class="text-[12px] text-secondary">Primary Mobile</p>
 </div>
 </div>
 <div class="flex gap-2">
-<button class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center active-scale transition-all">
+<button class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center active-scale transition-all" id="selected-case-call-btn">
 <span class="material-symbols-outlined">call</span>
 </button>
 <button class="w-10 h-10 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center active-scale transition-all">
@@ -228,13 +228,13 @@
 <div class="flex items-start gap-3">
 <span class="material-symbols-outlined text-secondary mt-1">location_on</span>
 <div class="flex-1">
-<p class="font-body-md text-body-md text-on-background leading-relaxed">
+<p class="font-body-md text-body-md text-on-background leading-relaxed" id="selected-case-address">
                             B-402, Skyline Residency, Sector 15, Vashi, Navi Mumbai - 400703
                         </p>
 <p class="text-[12px] text-secondary">Residence Address</p>
 </div>
 </div>
-<button class="w-full h-11 border border-primary text-primary rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 active-scale transition-all">
+<button class="w-full h-11 border border-primary text-primary rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 active-scale transition-all" id="selected-case-navigate-btn">
 <span class="material-symbols-outlined text-[20px]">directions</span>
                     NAVIGATE TO LOCATION
                 </button>
@@ -246,7 +246,7 @@
 <h2 class="font-title-lg text-title-lg text-on-background">Activity Timeline</h2>
 <button class="text-primary font-label-md text-label-md">View All</button>
 </div>
-<div class="space-y-0 px-2">
+<div class="space-y-0 px-2" id="selected-case-activity">
 <!-- Timeline Item 1 -->
 <div class="timeline-item relative flex gap-4 pb-8">
 <div class="timeline-dot relative z-10 flex-shrink-0 w-4 h-4 rounded-full bg-error border-2 border-white shadow-sm mt-1.5"></div>
@@ -293,11 +293,11 @@
 <!-- Bottom Floating Actions -->
 <div class="fixed bottom-0 left-0 w-full p-container-padding bg-gradient-to-t from-background via-background/95 to-transparent pointer-events-none">
 <div class="flex gap-3 pointer-events-auto max-w-2xl mx-auto">
-<button class="flex-1 h-14 bg-surface-container-highest text-primary font-title-lg text-title-lg rounded-xl shadow-lg flex items-center justify-center gap-2 active-scale transition-all">
+<button class="flex-1 h-14 bg-surface-container-highest text-primary font-title-lg text-title-lg rounded-xl shadow-lg flex items-center justify-center gap-2 active-scale transition-all" id="selected-case-navigate-btn">
 <span class="material-symbols-outlined">edit_note</span>
                 Record Visit
             </button>
-<button class="flex-1 h-14 bg-primary text-on-primary font-title-lg text-title-lg rounded-xl shadow-lg flex items-center justify-center gap-2 active-scale transition-all">
+<button class="flex-1 h-14 bg-primary text-on-primary font-title-lg text-title-lg rounded-xl shadow-lg flex items-center justify-center gap-2 active-scale transition-all" id="selected-case-navigate-btn">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
                 Collect Payment
             </button>

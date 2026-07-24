@@ -154,21 +154,21 @@
 <div class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant shadow-sm border-l-4 border-l-primary">
 <div class="flex justify-between items-start mb-2">
 <div>
-<h2 class="font-title-lg text-title-lg text-on-surface">Rajesh Kumar</h2>
-<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Loan ID: FC-99283-K</p>
+<h2 class="font-title-lg text-title-lg text-on-surface" id="selected-case-name">Rajesh Kumar</h2>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider" id="selected-case-loan">Loan ID: FC-99283-K</p>
 </div>
-<div class="bg-tertiary-container text-on-tertiary px-3 py-1 rounded-full font-label-md text-label-md">
+<div class="bg-tertiary-container text-on-tertiary px-3 py-1 rounded-full font-label-md text-label-md" id="selected-case-status">
           Active
         </div>
 </div>
 <div class="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-surface-variant">
 <div>
 <p class="font-label-md text-label-md text-on-surface-variant">Outstanding</p>
-<p class="font-headline-sm text-headline-sm text-primary">₹42,500.00</p>
+<p class="font-headline-sm text-headline-sm text-primary" id="selected-case-outstanding">₹42,500.00</p>
 </div>
 <div>
 <p class="font-label-md text-label-md text-on-surface-variant">Current EMI</p>
-<p class="font-headline-sm text-headline-sm text-on-surface">₹8,500.00</p>
+<p class="font-headline-sm text-headline-sm text-on-surface" id="selected-case-emi">₹8,500.00</p>
 </div>
 </div>
 </div>
@@ -188,7 +188,7 @@
 <div class="grid grid-cols-2 gap-3">
 <!-- Cash -->
 <div>
-<input checked="" class="hidden payment-mode-radio" id="mode_cash" name="payment_mode" onchange="toggleFields('cash')" type="radio"/>
+<input checked="" class="hidden payment-mode-radio" id="mode_cash" name="payment_mode" onchange="toggleFields('cash')" type="radio" value="CASH"/>
 <label class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl bg-white cursor-pointer hover:bg-surface-container-low transition-all" for="mode_cash">
 <span class="material-symbols-outlined text-on-surface-variant mb-2">payments</span>
 <span class="font-label-md text-label-md">Cash</span>
@@ -196,7 +196,7 @@
 </div>
 <!-- UPI -->
 <div>
-<input class="hidden payment-mode-radio" id="mode_upi" name="payment_mode" onchange="toggleFields('upi')" type="radio"/>
+<input class="hidden payment-mode-radio" id="mode_upi" name="payment_mode" onchange="toggleFields('upi')" type="radio" value="UPI"/>
 <label class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl bg-white cursor-pointer hover:bg-surface-container-low transition-all" for="mode_upi">
 <span class="material-symbols-outlined text-on-surface-variant mb-2">qr_code_2</span>
 <span class="font-label-md text-label-md">UPI</span>
@@ -204,7 +204,7 @@
 </div>
 <!-- Cheque -->
 <div>
-<input class="hidden payment-mode-radio" id="mode_cheque" name="payment_mode" onchange="toggleFields('cheque')" type="radio"/>
+<input class="hidden payment-mode-radio" id="mode_cheque" name="payment_mode" onchange="toggleFields('cheque')" type="radio" value="CHEQUE"/>
 <label class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl bg-white cursor-pointer hover:bg-surface-container-low transition-all" for="mode_cheque">
 <span class="material-symbols-outlined text-on-surface-variant mb-2">receipt_long</span>
 <span class="font-label-md text-label-md">Cheque</span>
@@ -212,7 +212,7 @@
 </div>
 <!-- NEFT/IMPS -->
 <div>
-<input class="hidden payment-mode-radio" id="mode_neft" name="payment_mode" onchange="toggleFields('neft')" type="radio"/>
+<input class="hidden payment-mode-radio" id="mode_neft" name="payment_mode" onchange="toggleFields('neft')" type="radio" value="NEFT"/>
 <label class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl bg-white cursor-pointer hover:bg-surface-container-low transition-all" for="mode_neft">
 <span class="material-symbols-outlined text-on-surface-variant mb-2">account_balance</span>
 <span class="font-label-md text-label-md">NEFT/IMPS</span>
@@ -226,7 +226,7 @@
 <div class="hidden space-y-4" id="fields_upi">
 <div class="relative">
 <label class="font-label-md text-label-md text-on-surface-variant block mb-1 ml-1">UTR / Transaction ID</label>
-<input class="w-full p-3 bg-white border border-outline-variant rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none font-body-md text-body-md" placeholder="Enter 12-digit UPI UTR" type="text"/>
+<input class="w-full p-3 bg-white border border-outline-variant rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none font-body-md text-body-md" id="payment-ref-upi" placeholder="Enter 12-digit UPI UTR" type="text"/>
 </div>
 </div>
 <!-- Cheque Fields (Hidden by default) -->
@@ -234,7 +234,7 @@
 <div class="grid grid-cols-2 gap-3">
 <div class="relative">
 <label class="font-label-md text-label-md text-on-surface-variant block mb-1 ml-1">Cheque Number</label>
-<input class="w-full p-3 bg-white border border-outline-variant rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none font-body-md text-body-md" placeholder="6-digit no." type="text"/>
+<input class="w-full p-3 bg-white border border-outline-variant rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none font-body-md text-body-md" id="payment-ref-cheque" placeholder="6-digit no." type="text"/>
 </div>
 <div class="relative">
 <label class="font-label-md text-label-md text-on-surface-variant block mb-1 ml-1">Cheque Date</label>
@@ -250,7 +250,7 @@
 <div class="hidden space-y-4" id="fields_neft">
 <div class="relative">
 <label class="font-label-md text-label-md text-on-surface-variant block mb-1 ml-1">Transaction Reference Number</label>
-<input class="w-full p-3 bg-white border border-outline-variant rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none font-body-md text-body-md" placeholder="Enter Reference No." type="text"/>
+<input class="w-full p-3 bg-white border border-outline-variant rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none font-body-md text-body-md" id="payment-ref-neft" placeholder="Enter Reference No." type="text"/>
 </div>
 </div>
 </div>
@@ -335,3 +335,4 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../src/bridge/fincollect-bridge.js"></script>
 </body></html>
+

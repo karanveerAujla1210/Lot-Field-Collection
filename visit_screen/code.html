@@ -150,21 +150,21 @@
 <div class="bg-surface-container-lowest rounded-xl p-md border-l-4 border-primary shadow-sm">
 <div class="flex justify-between items-start mb-2">
 <div>
-<h2 class="text-title-lg font-title-lg text-on-background">Rajesh Kumar</h2>
-<p class="text-on-surface-variant text-body-md mt-0.5">Loan ID: #FL-9908234</p>
+<h2 class="text-title-lg font-title-lg text-on-background" id="selected-case-name">Rajesh Kumar</h2>
+<p class="text-on-surface-variant text-body-md mt-0.5" id="selected-case-loan">Loan ID: #FL-9908234</p>
 </div>
-<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-label-md font-label-md">
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-label-md font-label-md" id="selected-case-bucket">
                         Overdue: 45 Days
                     </span>
 </div>
 <div class="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-outline-variant">
 <div>
 <p class="text-label-md text-outline font-label-md uppercase">Outstanding</p>
-<p class="text-title-lg font-title-lg text-error">₹24,500.00</p>
+<p class="text-title-lg font-title-lg text-error" id="selected-case-outstanding">₹24,500.00</p>
 </div>
 <div>
 <p class="text-label-md text-outline font-label-md uppercase">Location</p>
-<p class="text-body-md font-medium text-on-surface truncate">Indiranagar, Block 4</p>
+<p class="text-body-md font-medium text-on-surface truncate" id="selected-case-location">Indiranagar, Block 4</p>
 </div>
 </div>
 </div>
@@ -191,7 +191,7 @@
 <div class="space-y-sm">
 <label class="text-label-md font-label-md text-outline uppercase">Visit Outcome</label>
 <div class="relative">
-<select class="w-full h-12 bg-surface-container-lowest border border-outline-variant rounded-lg px-md appearance-none focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all">
+<select class="w-full h-12 bg-surface-container-lowest border border-outline-variant rounded-lg px-md appearance-none focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" id="visit-status">
 <option disabled="" selected="" value="">Select Status</option>
 <option value="met">Met Customer</option>
 <option value="ptp">PTP (Promise to Pay)</option>
@@ -207,21 +207,21 @@
 <div class="space-y-sm">
 <label class="text-label-md font-label-md text-outline uppercase">Promise Date</label>
 <div class="relative">
-<input class="w-full h-12 bg-surface-container-lowest border border-outline-variant rounded-lg px-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none" type="date"/>
+<input class="w-full h-12 bg-surface-container-lowest border border-outline-variant rounded-lg px-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none" id="visit-promise-date" type="date"/>
 </div>
 </div>
 <div class="space-y-sm">
 <label class="text-label-md font-label-md text-outline uppercase">PTP Amount</label>
 <div class="relative">
 <span class="absolute left-3 top-1/2 -translate-y-1/2 text-outline font-semibold">₹</span>
-<input class="w-full h-12 bg-surface-container-lowest border border-outline-variant rounded-lg pl-7 pr-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none" placeholder="0.00" type="number"/>
+<input class="w-full h-12 bg-surface-container-lowest border border-outline-variant rounded-lg pl-7 pr-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none" id="visit-expected-amount" placeholder="0.00" type="number"/>
 </div>
 </div>
 </div>
 <!-- Remarks -->
 <div class="space-y-sm">
 <label class="text-label-md font-label-md text-outline uppercase">Visit Remarks</label>
-<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none resize-none" placeholder="Describe the conversation or observation..." rows="3"></textarea>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none resize-none" id="visit-remarks" placeholder="Describe the conversation or observation..." rows="3"></textarea>
 </div>
 </section>
 </main>
@@ -261,3 +261,4 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../src/bridge/fincollect-bridge.js"></script>
 </body></html>
+
