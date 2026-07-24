@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sync Status | FinCollect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#cfdaf2",
+                    "primary-container": "#0f4cff",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#d8e3fb",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "on-primary-container": "#dadeff",
+                    "background": "#f9f9ff",
+                    "tertiary-fixed": "#6ffbbe",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#e7eeff",
+                    "on-primary-fixed-variant": "#0034bf",
+                    "secondary-container": "#d0e1fb",
+                    "on-tertiary-container": "#6df9bc",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#0b1c30",
+                    "on-background": "#111c2d",
+                    "surface": "#f9f9ff",
+                    "tertiary": "#00573a",
+                    "surface-container-low": "#f0f3ff",
+                    "inverse-surface": "#263143",
+                    "on-surface-variant": "#434656",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#002113",
+                    "tertiary-container": "#00724d",
+                    "surface-container-highest": "#d8e3fb",
+                    "secondary-fixed": "#d3e4fe",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "secondary": "#505f76",
+                    "on-error-container": "#93000a",
+                    "outline": "#747688",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#0046f9",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "primary-fixed": "#dde1ff",
+                    "on-secondary-container": "#54647a",
+                    "on-primary-fixed": "#001356",
+                    "surface-container-high": "#dee8ff",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed-dim": "#b9c3ff",
+                    "inverse-primary": "#b9c3ff",
+                    "outline-variant": "#c4c5d9",
+                    "on-surface": "#111c2d",
+                    "primary": "#0038ca",
+                    "inverse-on-surface": "#ecf1ff",
+                    "surface-bright": "#f9f9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "12px",
+                    "xs": "4px",
+                    "container-padding": "16px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "xl": "32px",
+                    "md": "16px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "headline-md-mobile": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "headline-md-mobile": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        @keyframes orbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-orbit {
+            animation: orbit 3s linear infinite;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sync-glow {
+            box-shadow: 0 0 40px -10px rgba(15, 76, 255, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation -->
+<header class="flex justify-between items-center w-full px-container-padding h-14 bg-surface dark:bg-inverse-surface fixed top-0 left-0 z-50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-headline-md font-bold">sync_alt</span>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">FinCollect</h1>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">
+                EP
+            </div>
+</div>
+</header>
+<main class="pt-20 pb-32 px-container-padding max-w-lg mx-auto min-h-screen flex flex-col justify-center gap-lg">
+<!-- Central Animated Hero Section -->
+<section class="flex flex-col items-center justify-center text-center py-lg relative">
+<div class="relative w-48 h-48 mb-lg flex items-center justify-center">
+<!-- Outer Animated Ring -->
+<div class="absolute inset-0 rounded-full border-4 border-dashed border-primary-container/20 animate-orbit"></div>
+<!-- Inner Pulse Ring -->
+<div class="absolute inset-4 rounded-full border-2 border-primary/40 animate-pulse"></div>
+<!-- Central Icon with Shadow -->
+<div class="w-24 h-24 rounded-full bg-primary text-on-primary flex items-center justify-center sync-glow z-10 transition-transform hover:scale-105 duration-300">
+<span class="material-symbols-outlined text-[48px] animate-spin" style="animation-duration: 4s;">sync</span>
+</div>
+</div>
+<div class="space-y-sm">
+<h2 class="font-headline-md-mobile text-headline-md-mobile text-on-surface">Syncing field data...</h2>
+<p class="text-on-surface-variant font-body-md max-w-[280px] mx-auto">Encryption and validation in progress. Do not close the application.</p>
+</div>
+</section>
+<!-- Progress Tracking -->
+<section class="space-y-md">
+<div class="flex justify-between items-end">
+<span class="text-label-md font-label-md text-primary uppercase tracking-wider">Overall Progress</span>
+<span class="text-title-lg font-title-lg text-on-surface">64%</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary transition-all duration-500 ease-out rounded-full" style="width: 64%"></div>
+</div>
+</section>
+<!-- Bento Stats Grid -->
+<section class="grid grid-cols-2 gap-md">
+<!-- Large Card -->
+<div class="col-span-2 glass-panel p-md rounded-xl shadow-sm border-l-4 border-primary">
+<div class="flex items-center gap-3 mb-xs">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'opsz' 20">schedule</span>
+<span class="text-label-md font-label-md text-on-surface-variant">Last Sync Time</span>
+</div>
+<div class="text-title-lg font-title-lg text-on-surface">Today, 09:42 AM</div>
+</div>
+<!-- Small Card 1 -->
+<div class="glass-panel p-md rounded-xl shadow-sm border-l-4 border-tertiary">
+<div class="flex items-center gap-2 mb-xs">
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'opsz' 18">cloud_upload</span>
+<span class="text-label-md font-label-md text-on-surface-variant">Pending</span>
+</div>
+<div class="text-headline-sm font-headline-sm text-on-surface">142</div>
+</div>
+<!-- Small Card 2 -->
+<div class="glass-panel p-md rounded-xl shadow-sm border-l-4 border-error">
+<div class="flex items-center gap-2 mb-xs">
+<span class="material-symbols-outlined text-error text-sm" style="font-variation-settings: 'opsz' 18">report</span>
+<span class="text-label-md font-label-md text-on-surface-variant">Failed</span>
+</div>
+<div class="text-headline-sm font-headline-sm text-on-surface">3</div>
+</div>
+</section>
+<!-- Action Button -->
+<div class="mt-xl">
+<button class="w-full h-12 bg-primary text-on-primary rounded-lg font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform duration-150 shadow-lg shadow-primary/20" id="sync-button">
+<span class="material-symbols-outlined text-lg">bolt</span>
+                Force Sync Now
+            </button>
+<p class="text-center mt-md text-label-md font-label-md text-on-surface-variant">
+                Recommended only on stable WiFi or 5G
+            </p>
+</div>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-2 bg-surface-container dark:bg-surface-container-lowest border-t border-outline-variant dark:border-outline z-50">
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Customers</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container rounded-full px-5 py-1 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">sync</span>
+<span class="font-label-md text-label-md">Sync</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">History</span>
+</button>
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-label-md text-label-md">Profile</span>
+</button>
+</nav>
+<script>
+        // Micro-interaction for the Sync button
+        const syncBtn = document.getElementById('sync-button');
+        syncBtn.addEventListener('click', () => {
+            const originalText = syncBtn.innerHTML;
+            syncBtn.disabled = true;
+            syncBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">autorenew</span> Optimizing...';
+            
+            setTimeout(() => {
+                syncBtn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Sync Initiated';
+                syncBtn.classList.remove('bg-primary');
+                syncBtn.classList.add('bg-tertiary');
+                
+                setTimeout(() => {
+                    syncBtn.innerHTML = originalText;
+                    syncBtn.classList.add('bg-primary');
+                    syncBtn.classList.remove('bg-tertiary');
+                    syncBtn.disabled = false;
+                }, 2000);
+            }, 1500);
+        });
+
+        // Simulating subtle data updates
+        setInterval(() => {
+            const bar = document.querySelector('.bg-primary.transition-all');
+            const percentText = document.querySelector('.text-title-lg');
+            let currentWidth = parseInt(bar.style.width);
+            if(currentWidth < 100) {
+                currentWidth += 1;
+                bar.style.width = currentWidth + '%';
+                percentText.innerText = currentWidth + '%';
+            } else {
+                bar.style.width = '0%';
+                percentText.innerText = '0%';
+            }
+        }, 5000);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../src/bridge/fincollect-bridge.js"></script>
+</body></html>

@@ -1,0 +1,6 @@
+{
+  "appId": "com.fincollect.app",
+  "appName": "FinCollect",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

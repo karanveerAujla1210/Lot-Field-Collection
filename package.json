@@ -1,0 +1,23 @@
+{
+  "name": "fincollect-backend",
+  "version": "1.0.0",
+  "description": "Enterprise Backend for FinCollect Field Collection Platform",
+  "main": "dist/backend/index.js",
+  "types": "dist/backend/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "start": "npx -y http-server . -p 3000 -c-1"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.4.2",
+    "@types/node": "^20.14.0",
+    "typescript": "^5.4.5"
+  }
+}

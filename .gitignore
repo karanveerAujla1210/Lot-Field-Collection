@@ -1,0 +1,34 @@
+# Node dependencies
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Build outputs & APK binaries
+dist/
+build/
+.temp/
+*.apk
+
+# Android build outputs & caches
+android/.gradle/
+android/app/build/
+android/build/
+android/app/src/main/assets/public/
+
+# Environment files with secrets (keep .env.example)
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE & Editor files
+.vscode/
+.idea/
+.qodo/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
