@@ -43,6 +43,33 @@
     bindSyncForms();
     bindDashboardMetrics();
     subscribeRealtimeEvents();
+    startOneMinuteAutoSync();
+  }
+
+  function startOneMinuteAutoSync() {
+    console.log("[FinCollect Auto-Sync] System-wide 1-minute auto-sync trigger initialized.");
+    
+    // Perform initial sync check
+    performSystemAutoSync();
+
+    // Trigger full system sync every 60,000 ms (1 minute)
+    setInterval(() => {
+      performSystemAutoSync();
+    }, 60000);
+  }
+
+  async function performSystemAutoSync() {
+    console.log("[FinCollect Auto-Sync] Executing 1-minute system data refresh...");
+    
+    // 1. Refresh live metrics and data from Supabase Cloud
+    bindDashboardMetrics();
+
+    // 2. Update visual status badge in UI
+    const syncBadge = document.querySelector("#system-sync-status, .sync-status-badge");
+    if (syncBadge) {
+      const nowTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      syncBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block mr-1.5"></span> Live Synced (${nowTime})`;
+    }
   }
 
   function bindAuthForms() {
