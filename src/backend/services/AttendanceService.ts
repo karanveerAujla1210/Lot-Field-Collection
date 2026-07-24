@@ -1,4 +1,4 @@
-// Field Executive Attendance & GPS Tracking Service for FinCollect Platform
+// Field Executive Attendance & GPS Tracking Service for LOT Field Collection Platform
 
 import { supabase } from "../config/supabase.config.js";
 import { Database } from "../types/database.types.js";

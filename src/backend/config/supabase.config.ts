@@ -1,4 +1,4 @@
-// Supabase Centralized Client Configuration for FinCollect Platform
+// Supabase Centralized Client Configuration for LOT Field Collection Platform
 
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 

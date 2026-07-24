@@ -1,7 +1,7 @@
 {
-  "name": "fincollect-backend",
+  "name": "lot-field-collection-backend",
   "version": "1.0.0",
-  "description": "Enterprise Backend for FinCollect Field Collection Platform",
+  "description": "Enterprise Backend for LOT Field Collection Field Collection Platform",
   "main": "dist/backend/index.js",
   "types": "dist/backend/index.d.ts",
   "scripts": {

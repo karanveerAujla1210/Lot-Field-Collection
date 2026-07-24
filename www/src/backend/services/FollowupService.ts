@@ -1,4 +1,4 @@
-// Follow-up & Reminder Service for FinCollect Platform
+// Follow-up & Reminder Service for LOT Field Collection Platform
 
 import { supabase } from "../config/supabase.config.js";
 import { Database, FollowupStatus, FollowupType } from "../types/database.types.js";

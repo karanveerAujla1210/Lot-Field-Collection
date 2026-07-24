@@ -1,5 +1,5 @@
 ---
-name: FinCollect Executive
+name: LOT Field Collection Executive
 colors:
   surface: '#f9f9ff'
   surface-dim: '#cfdaf2'

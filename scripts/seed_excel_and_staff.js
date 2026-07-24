@@ -235,7 +235,7 @@ branchesMap.forEach(b => {
 sql += `\n-- SEED STAFF / FIELD EXECUTIVES DATA\n`;
 
 staffData.forEach((staff, idx) => {
-  const email = `${staff.name.toLowerCase()}@fincollect.com`;
+  const email = `${staff.name.toLowerCase()}@lotfieldcollection.com`;
   const branchKey = staff.location.toLowerCase();
   const b = branchesMap.get(branchKey);
   const bCode = b ? b.code : 'BR-001';

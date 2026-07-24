@@ -1,4 +1,4 @@
-// Authentication & Identity Service for FinCollect Platform
+// Authentication & Identity Service for LOT Field Collection Platform
 
 import { supabase } from "../config/supabase.config.js";
 import { UserRoleCode } from "../types/database.types.js";
@@ -82,7 +82,7 @@ export class AuthService {
    */
   static async forgotPassword(email: string, redirectTo?: string): Promise<void> {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectTo || "https://fincollect.app/reset-password",
+      redirectTo: redirectTo || "https://lotfieldcollection.app/reset-password",
     });
     if (error) throw error;
   }

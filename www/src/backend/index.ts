@@ -1,4 +1,4 @@
-// FinCollect Enterprise Platform Backend SDK Root Export
+// LOT Field Collection Enterprise Platform Backend SDK Root Export
 
 export * from "./config/supabase.config.js";
 export * from "./types/database.types.js";

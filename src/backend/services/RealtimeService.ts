@@ -1,4 +1,4 @@
-// Supabase Realtime Subscription Service for FinCollect Platform
+// Supabase Realtime Subscription Service for LOT Field Collection Platform
 
 import { supabase } from "../config/supabase.config.js";
 import { RealtimeChannel } from "@supabase/supabase-js";

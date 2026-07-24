@@ -1,4 +1,4 @@
-// Database Type Definitions for FinCollect Backend Platform
+// Database Type Definitions for LOT Field Collection Backend Platform
 
 export type Json =
   | string

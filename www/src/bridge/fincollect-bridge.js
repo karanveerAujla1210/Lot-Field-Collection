@@ -1,5 +1,5 @@
 /**
- * FinCollect Enterprise Integration Bridge
+ * LOT Field Collection Enterprise Integration Bridge
  * Connects Stitch UI HTML pages directly to Supabase Backend Cloud
  * 
  * Credentials:
@@ -21,11 +21,11 @@
     const script = document.createElement("script");
     script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
     script.onload = () => {
-      console.log("[FinCollect Bridge] Supabase CDN SDK Loaded successfully.");
+      console.log("[LOT Field Collection Bridge] Supabase CDN SDK Loaded successfully.");
       callback();
     };
     script.onerror = () => {
-      console.error("[FinCollect Bridge] Failed to load Supabase CDN SDK.");
+      console.error("[LOT Field Collection Bridge] Failed to load Supabase CDN SDK.");
     };
     document.head.appendChild(script);
   }
@@ -33,8 +33,8 @@
   function initBridge() {
     if (window.supabase) {
       supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-      window.fincollectSupabase = supabaseClient;
-      console.log("[FinCollect Bridge] Connected to Supabase at:", SUPABASE_URL);
+      window.lotSupabase = supabaseClient;
+      console.log("[LOT Field Collection Bridge] Connected to Supabase at:", SUPABASE_URL);
     }
 
     bindAuthForms();
@@ -47,7 +47,7 @@
   }
 
   function startOneMinuteAutoSync() {
-    console.log("[FinCollect Auto-Sync] System-wide 1-minute auto-sync trigger initialized.");
+    console.log("[LOT Field Collection Auto-Sync] System-wide 1-minute auto-sync trigger initialized.");
     
     // Perform initial sync check
     performSystemAutoSync();
@@ -59,7 +59,7 @@
   }
 
   async function performSystemAutoSync() {
-    console.log("[FinCollect Auto-Sync] Executing 1-minute system data refresh...");
+    console.log("[LOT Field Collection Auto-Sync] Executing 1-minute system data refresh...");
     
     // 1. Refresh live metrics and data from Supabase Cloud
     bindDashboardMetrics();
@@ -82,7 +82,7 @@
       loginBtn.addEventListener("click", async (e) => {
         if (loginForm) e.preventDefault();
 
-        const email = emailInput?.value || "executive@fincollect.app";
+        const email = emailInput?.value || "executive@lotfieldcollection.app";
         const password = passwordInput?.value || "Password123!";
 
         const originalText = loginBtn.innerHTML;
@@ -105,7 +105,7 @@
           loginBtn.classList.replace("bg-primary", "bg-emerald-600");
 
           setTimeout(() => {
-            console.log("[FinCollect Bridge] Authentication verified. Session active.");
+            console.log("[LOT Field Collection Bridge] Authentication verified. Session active.");
             if (window.location.pathname.includes("login")) {
               window.location.href = "../index.html";
             }
@@ -139,7 +139,7 @@
                 latitude: pos.coords.latitude,
                 longitude: pos.coords.longitude,
                 visit_status: "CUSTOMER_MET",
-                remarks: "Field visit recorded via FinCollect Bridge",
+                remarks: "Field visit recorded via LOT Field Collection Bridge",
               });
 
               if (error) throw error;
@@ -208,11 +208,11 @@
     // Fetch live cases from Supabase PostgreSQL database
     supabaseClient.from("cases").select("*").then(({ data, error }) => {
       if (error) {
-        console.warn("[FinCollect Bridge] Cases fetch status:", error.message);
+        console.warn("[LOT Field Collection Bridge] Cases fetch status:", error.message);
         return;
       }
       if (data && data.length > 0) {
-        console.log(`[FinCollect Bridge] Loaded ${data.length} live cases from Supabase.`);
+        console.log(`[LOT Field Collection Bridge] Loaded ${data.length} live cases from Supabase.`);
         document.querySelectorAll(".total-cases-count, #total-loans-counter").forEach(el => {
           el.innerText = data.length.toLocaleString();
         });
@@ -224,7 +224,7 @@
     supabaseClient.from("users").select("*").then(({ data, error }) => {
       if (error) return;
       if (data && data.length > 0) {
-        console.log(`[FinCollect Bridge] Loaded ${data.length} staff executives from Supabase.`);
+        console.log(`[LOT Field Collection Bridge] Loaded ${data.length} staff executives from Supabase.`);
         document.querySelectorAll(".total-staff-count").forEach(el => {
           el.innerText = data.length.toString();
         });

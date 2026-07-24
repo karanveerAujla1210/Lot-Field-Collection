@@ -1,4 +1,4 @@
-# FinCollect Enterprise Backend API Documentation
+# LOT Field Collection Enterprise Backend API Documentation
 
 ## Supabase Endpoints Overview
 
@@ -17,7 +17,7 @@
 - **Request Body**:
   ```json
   {
-    "email": "executive@fincollect.app",
+    "email": "executive@lotfieldcollection.app",
     "password": "SecurePassword123!"
   }
   ```
@@ -30,7 +30,7 @@
     "refresh_token": "rF8x...",
     "user": {
       "id": "u1234567-89ab-cdef-0123-456789abcdef",
-      "email": "executive@fincollect.app"
+      "email": "executive@lotfieldcollection.app"
     }
   }
   ```

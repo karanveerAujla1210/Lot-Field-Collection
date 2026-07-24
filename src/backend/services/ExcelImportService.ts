@@ -1,4 +1,4 @@
-// Excel Bulk Import & Portfolio Allocation Parser Service for FinCollect Platform
+// Excel Bulk Import & Portfolio Allocation Parser Service for LOT Field Collection Platform
 
 import { supabase } from "../config/supabase.config.js";
 import * as XLSX from "xlsx";

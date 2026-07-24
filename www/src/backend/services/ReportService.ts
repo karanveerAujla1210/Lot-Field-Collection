@@ -1,4 +1,4 @@
-// Enterprise Analytics & Reports Service for FinCollect Platform
+// Enterprise Analytics & Reports Service for LOT Field Collection Platform
 
 import { supabase } from "../config/supabase.config.js";
 

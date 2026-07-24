@@ -34,7 +34,7 @@ async function main() {
   const usersPayload = staffData.map(s => ({
     employee_code: s.empCode,
     full_name: s.name,
-    email: `${s.name.toLowerCase()}@fincollect.com`,
+    email: `${s.name.toLowerCase()}@lotfieldcollection.com`,
     phone: s.phone,
     status: 'ACTIVE'
   }));

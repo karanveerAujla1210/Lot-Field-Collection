@@ -24,7 +24,7 @@ BEGIN
         'id', COALESCE(NEW.id, OLD.id),
         'synced_at', CURRENT_TIMESTAMP
     );
-    PERFORM pg_notify('fincollect_system_sync', payload::text);
+    PERFORM pg_notify('lot_system_sync', payload::text);
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

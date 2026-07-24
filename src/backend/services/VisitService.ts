@@ -1,4 +1,4 @@
-// Field Visit Execution Service for FinCollect Platform
+// Field Visit Execution Service for LOT Field Collection Platform
 
 import { supabase } from "../config/supabase.config.js";
 import { Database, VisitStatus } from "../types/database.types.js";

@@ -1,4 +1,4 @@
-// Executive Customer & Loan Allocation Service for FinCollect Platform
+// Executive Customer & Loan Allocation Service for LOT Field Collection Platform
 
 import { supabase } from "../config/supabase.config.js";
 import { Database } from "../types/database.types.js";

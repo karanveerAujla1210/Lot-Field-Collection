@@ -1,4 +1,4 @@
-// Payment Collection & Receipt Management Service for FinCollect Platform
+// Payment Collection & Receipt Management Service for LOT Field Collection Platform
 
 import { supabase } from "../config/supabase.config.js";
 import { Database, PaymentMode } from "../types/database.types.js";

@@ -1,4 +1,4 @@
-// Offline Queue & Bi-directional Sync Service for FinCollect Field Executive App
+// Offline Queue & Bi-directional Sync Service for LOT Field Collection Field Executive App
 
 import { supabase } from "../config/supabase.config.js";
 

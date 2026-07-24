@@ -8,21 +8,21 @@
 -- 1. SEED BRANCHES
 -- -----------------------------------------------------------------------------
 INSERT INTO public.branches (id, branch_code, name, region, city, state, address, contact_phone, contact_email) VALUES
-    ('b1000000-0000-0000-0000-000000000001', 'BR-MUM-01', 'Mumbai West Branch', 'WEST', 'Mumbai', 'Maharashtra', '102 Business Park, Andheri West, Mumbai', '+919876543210', 'mumbai.west@fincollect.app'),
-    ('b1000000-0000-0000-0000-000000000002', 'BR-DEL-01', 'Delhi Central Branch', 'NORTH', 'New Delhi', 'Delhi', '45 Connaught Place, New Delhi', '+919876543211', 'delhi.central@fincollect.app'),
-    ('b1000000-0000-0000-0000-000000000003', 'BR-BLR-01', 'Bangalore South Branch', 'SOUTH', 'Bangalore', 'Karnataka', '88 MG Road, Indiranagar, Bangalore', '+919876543212', 'blr.south@fincollect.app'),
-    ('b1000000-0000-0000-0000-000000000004', 'BR-HYD-01', 'Hyderabad Urban Branch', 'SOUTH', 'Hyderabad', 'Telangana', '12 HITEC City Main Rd, Hyderabad', '+919876543213', 'hyd.urban@fincollect.app')
+    ('b1000000-0000-0000-0000-000000000001', 'BR-MUM-01', 'Mumbai West Branch', 'WEST', 'Mumbai', 'Maharashtra', '102 Business Park, Andheri West, Mumbai', '+919876543210', 'mumbai.west@lotfieldcollection.app'),
+    ('b1000000-0000-0000-0000-000000000002', 'BR-DEL-01', 'Delhi Central Branch', 'NORTH', 'New Delhi', 'Delhi', '45 Connaught Place, New Delhi', '+919876543211', 'delhi.central@lotfieldcollection.app'),
+    ('b1000000-0000-0000-0000-000000000003', 'BR-BLR-01', 'Bangalore South Branch', 'SOUTH', 'Bangalore', 'Karnataka', '88 MG Road, Indiranagar, Bangalore', '+919876543212', 'blr.south@lotfieldcollection.app'),
+    ('b1000000-0000-0000-0000-000000000004', 'BR-HYD-01', 'Hyderabad Urban Branch', 'SOUTH', 'Hyderabad', 'Telangana', '12 HITEC City Main Rd, Hyderabad', '+919876543213', 'hyd.urban@lotfieldcollection.app')
 ON CONFLICT (branch_code) DO NOTHING;
 
 -- -----------------------------------------------------------------------------
 -- 2. SEED USERS & PROFILES
 -- -----------------------------------------------------------------------------
 INSERT INTO public.users (id, employee_code, full_name, email, phone, role_id, branch_id, status) VALUES
-    ('u1000000-0000-0000-0000-000000000001', 'EMP-ADM-01', 'Vikramaditya Sharma', 'admin@fincollect.app', '+919900000001', '10000000-0000-0000-0000-000000000002', 'b1000000-0000-0000-0000-000000000001', 'ACTIVE'),
-    ('u1000000-0000-0000-0000-000000000002', 'EMP-BM-01', 'Rajesh Kulkarni', 'bm.mumbai@fincollect.app', '+919900000002', '10000000-0000-0000-0000-000000000004', 'b1000000-0000-0000-0000-000000000001', 'ACTIVE'),
-    ('u1000000-0000-0000-0000-000000000003', 'EMP-FE-01', 'Amit Verma', 'executive@fincollect.app', '+919900000003', '10000000-0000-0000-0000-000000000006', 'b1000000-0000-0000-0000-000000000001', 'ACTIVE'),
-    ('u1000000-0000-0000-0000-000000000004', 'EMP-FE-02', 'Priya Sundaram', 'priya.fe@fincollect.app', '+919900000004', '10000000-0000-0000-0000-000000000006', 'b1000000-0000-0000-0000-000000000003', 'ACTIVE'),
-    ('u1000000-0000-0000-0000-000000000005', 'EMP-FIN-01', 'Siddharth Mehta', 'finance@fincollect.app', '+919900000005', '10000000-0000-0000-0000-000000000007', 'b1000000-0000-0000-0000-000000000001', 'ACTIVE')
+    ('u1000000-0000-0000-0000-000000000001', 'EMP-ADM-01', 'Vikramaditya Sharma', 'admin@lotfieldcollection.app', '+919900000001', '10000000-0000-0000-0000-000000000002', 'b1000000-0000-0000-0000-000000000001', 'ACTIVE'),
+    ('u1000000-0000-0000-0000-000000000002', 'EMP-BM-01', 'Rajesh Kulkarni', 'bm.mumbai@lotfieldcollection.app', '+919900000002', '10000000-0000-0000-0000-000000000004', 'b1000000-0000-0000-0000-000000000001', 'ACTIVE'),
+    ('u1000000-0000-0000-0000-000000000003', 'EMP-FE-01', 'Amit Verma', 'executive@lotfieldcollection.app', '+919900000003', '10000000-0000-0000-0000-000000000006', 'b1000000-0000-0000-0000-000000000001', 'ACTIVE'),
+    ('u1000000-0000-0000-0000-000000000004', 'EMP-FE-02', 'Priya Sundaram', 'priya.fe@lotfieldcollection.app', '+919900000004', '10000000-0000-0000-0000-000000000006', 'b1000000-0000-0000-0000-000000000003', 'ACTIVE'),
+    ('u1000000-0000-0000-0000-000000000005', 'EMP-FIN-01', 'Siddharth Mehta', 'finance@lotfieldcollection.app', '+919900000005', '10000000-0000-0000-0000-000000000007', 'b1000000-0000-0000-0000-000000000001', 'ACTIVE')
 ON CONFLICT (id) DO NOTHING;
 
 -- -----------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-# FinCollect Enterprise Business Architecture & Technical Rules
+# LOT Field Collection Enterprise Business Architecture & Technical Rules
 
 ## 1. System Roles & Access Control Matrix (8 Tiers)
 

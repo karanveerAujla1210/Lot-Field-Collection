@@ -1,6 +1,6 @@
 {
-  "appId": "com.fincollect.app",
-  "appName": "FinCollect",
+  "appId": "com.lotfieldcollection.app",
+  "appName": "LOT Field Collection",
   "webDir": "www",
   "bundledWebRuntime": false
 }

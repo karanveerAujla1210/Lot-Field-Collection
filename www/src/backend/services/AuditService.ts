@@ -1,4 +1,4 @@
-// Unified Audit Logging Service for FinCollect Platform
+// Unified Audit Logging Service for LOT Field Collection Platform
 
 import { supabase } from "../config/supabase.config.js";
 

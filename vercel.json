@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "fincollect-crm",
+  "name": "lot-field-collection-crm",
   "outputDirectory": ".",
   "cleanUrls": true,
   "redirects": [

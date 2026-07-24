@@ -1,4 +1,4 @@
-// Customer Management Service for FinCollect Platform
+// Customer Management Service for LOT Field Collection Platform
 
 import { supabase } from "../config/supabase.config.js";
 import { Database } from "../types/database.types.js";
