@@ -179,7 +179,7 @@
 <label class="absolute -top-2 left-3 bg-white px-1 text-xs font-medium text-primary z-10 transition-all">Payment Amount (₹)</label>
 <div class="flex items-center border-2 border-primary rounded-lg px-3 py-3 shadow-sm bg-white">
 <span class="text-xl font-semibold text-on-surface mr-2">₹</span>
-<input class="w-full bg-transparent border-none focus:ring-0 font-headline-md text-headline-md text-on-surface p-0" placeholder="0.00" type="number" value="8500"/>
+<input class="w-full bg-transparent border-none focus:ring-0 font-headline-md text-headline-md text-on-surface p-0" id="payment-amount" name="amount" placeholder="0.00" type="number" value="8500"/>
 </div>
 </div>
 <!-- Payment Mode Selection -->
@@ -273,7 +273,7 @@
 </div>
 <!-- Action Button -->
 <div class="pt-4 pb-12">
-<button class="w-full h-[56px] bg-primary text-white rounded-full font-headline-sm text-headline-sm shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2 hover:brightness-110">
+<button class="w-full h-[56px] bg-primary text-white rounded-full font-headline-sm text-headline-sm shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2 hover:brightness-110 pay-submit" id="collect-payment-btn">
 <span>Confirm Payment</span>
 <span class="material-symbols-outlined">chevron_right</span>
 </button>

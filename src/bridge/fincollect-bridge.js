@@ -31,10 +31,28 @@
   }
 
   function initBridge() {
-    if (window.supabase) {
-      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-      window.lotSupabase = supabaseClient;
-      console.log("[LOT Field Collection Bridge] Connected to Supabase at:", SUPABASE_URL);
+    try {
+      // Try common global locations for the UMD bundle
+      if (window.supabase && typeof window.supabase.createClient === 'function') {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      } else if (typeof createClient === 'function') {
+        // Some UMD builds expose createClient directly
+        supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+      } else if (window.Supabase && typeof window.Supabase.createClient === 'function') {
+        supabaseClient = window.Supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      } else if (window.supabase && typeof window.supabase === 'function') {
+        // fallback if the global is a function wrapper
+        try { supabaseClient = window.supabase(SUPABASE_URL, SUPABASE_KEY); } catch (e) { /* ignore */ }
+      }
+
+      if (supabaseClient) {
+        window.lotSupabase = supabaseClient;
+        console.log("[LOT Field Collection Bridge] Connected to Supabase at:", SUPABASE_URL);
+      } else {
+        console.error('[LOT Field Collection Bridge] Supabase client not found after SDK load. Check CDN bundle (use UMD dist) and network errors.');
+      }
+    } catch (err) {
+      console.error('[LOT Field Collection Bridge] Error initializing Supabase client:', err);
     }
 
     bindAuthForms();
@@ -98,7 +116,7 @@
           });
 
           if (error) {
-            console.warn("[Bridge Warning] Fallback auth mode:", error.message);
+            throw error;
           }
 
           loginBtn.innerHTML = `<span class="material-symbols-outlined">check_circle</span> Connected`;
@@ -111,7 +129,7 @@
             }
           }, 1000);
         } catch (err) {
-          alert("Supabase Authentication Status: " + err.message);
+          showToast(`Login failed: ${err.message}`);
           loginBtn.disabled = false;
           loginBtn.innerHTML = originalText;
         }
@@ -125,7 +143,21 @@
 
     submitVisitBtn.addEventListener("click", async (e) => {
       e.preventDefault();
-      if (!supabaseClient) return;
+      if (!supabaseClient) {
+        showToast("Supabase client not initialized.");
+        return;
+      }
+
+      const user = (await supabaseClient.auth.getUser()).data.user;
+      if (!user) {
+        showToast("Please log in before saving a visit.");
+        return;
+      }
+
+      if (!window.currentLoanId || !window.currentCustomerId) {
+        showToast("No live case is selected, so visit data cannot be linked.");
+        return;
+      }
 
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
@@ -133,9 +165,9 @@
             try {
               const { data, error } = await supabaseClient.from("visits").insert({
                 visit_code: `VIS-${Date.now()}`,
-                loan_id: window.currentLoanId || "11111111-1111-1111-1111-111111111111",
-                customer_id: window.currentCustomerId || "22222222-2222-2222-2222-222222222222",
-                executive_id: (await supabaseClient.auth.getUser()).data.user?.id || "33333333-3333-3333-3333-333333333333",
+                loan_id: window.currentLoanId,
+                customer_id: window.currentCustomerId,
+                executive_id: user.id,
                 latitude: pos.coords.latitude,
                 longitude: pos.coords.longitude,
                 visit_status: "CUSTOMER_MET",
@@ -143,13 +175,15 @@
               });
 
               if (error) throw error;
-              alert("Visit recorded successfully in Supabase PostgreSQL!");
+              showToast("Visit recorded successfully.");
             } catch (err) {
               console.error("[Bridge Error] Record Visit:", err);
+              showToast(`Visit save failed: ${err.message}`);
             }
           },
           (err) => {
             console.warn("[Bridge Geolocation Warning]:", err.message);
+            showToast(`Geolocation failed: ${err.message}`);
           }
         );
       }
@@ -162,7 +196,21 @@
 
     collectPayBtn.addEventListener("click", async (e) => {
       e.preventDefault();
-      if (!supabaseClient) return;
+      if (!supabaseClient) {
+        showToast("Supabase client not initialized.");
+        return;
+      }
+
+      const user = (await supabaseClient.auth.getUser()).data.user;
+      if (!user) {
+        showToast("Please log in before recording a payment.");
+        return;
+      }
+
+      if (!window.currentLoanId || !window.currentCustomerId || !window.currentBranchId) {
+        showToast("No live case is selected, so payment data cannot be linked.");
+        return;
+      }
 
       const amountVal = parseFloat(document.querySelector("#payment-amount, input[name='amount']")?.value || "5000");
 
@@ -171,19 +219,20 @@
         const { data, error } = await supabaseClient.from("payments").insert({
           payment_code: `PAY-${Date.now()}`,
           receipt_number: receiptNo,
-          loan_id: window.currentLoanId || "11111111-1111-1111-1111-111111111111",
-          customer_id: window.currentCustomerId || "22222222-2222-2222-2222-222222222222",
-          executive_id: (await supabaseClient.auth.getUser()).data.user?.id || "33333333-3333-3333-3333-333333333333",
-          branch_id: "44444444-4444-4444-4444-444444444444",
+          loan_id: window.currentLoanId,
+          customer_id: window.currentCustomerId,
+          executive_id: user.id,
+          branch_id: window.currentBranchId,
           amount_paid: amountVal,
           payment_mode: "CASH",
           payment_status: "SUCCESS",
         });
 
         if (error) throw error;
-        alert(`Payment of ₹${amountVal} processed in Supabase! Receipt #${receiptNo}`);
+        showToast(`Payment of ₹${amountVal} saved. Receipt #${receiptNo}`);
       } catch (err) {
         console.error("[Bridge Error] Payment:", err);
+        showToast(`Payment save failed: ${err.message}`);
       }
     });
   }
@@ -263,7 +312,12 @@
     const listContainer = document.querySelector("#customer-list-container, .customer-cards-list");
     if (!listContainer) return;
 
-    listContainer.innerHTML = cases.slice(0, 50).map(c => `
+    listContainer.innerHTML = `
+      <div class="flex justify-between items-center px-1">
+        <h2 class="font-title-lg text-title-lg text-on-surface">Customer Queue</h2>
+        <span class="text-label-md font-label-md text-secondary">${cases.length} Total</span>
+      </div>
+      ${cases.slice(0, 50).map(c => `
       <div class="customer-card bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/40 hover:shadow-md transition-all">
         <div class="flex justify-between items-start">
           <div>
@@ -288,7 +342,7 @@
           <button class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-xs shadow-sm">Field Visit</button>
         </div>
       </div>
-    `).join('');
+    `).join('')}`;
   }
 
   function renderAdminTableRows(cases) {
