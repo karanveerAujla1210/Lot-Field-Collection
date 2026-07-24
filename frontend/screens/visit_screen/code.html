@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>LOT Field Collection - Visit Recording</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-state:active {
+            transform: scale(0.95);
+            transition: transform 0.15s ease;
+        }
+        .safe-area-pb {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        /* Custom radio/checkbox styles for status selection */
+        .status-chip input:checked + label {
+            background-color: #0f4cff;
+            color: white;
+            border-color: #0f4cff;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#cfdaf2",
+                        "primary-container": "#0f4cff",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#d8e3fb",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-primary-container": "#dadeff",
+                        "background": "#f9f9ff",
+                        "tertiary-fixed": "#6ffbbe",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#e7eeff",
+                        "on-primary-fixed-variant": "#0034bf",
+                        "secondary-container": "#d0e1fb",
+                        "on-tertiary-container": "#6df9bc",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-background": "#111c2d",
+                        "surface": "#f9f9ff",
+                        "tertiary": "#00573a",
+                        "surface-container-low": "#f0f3ff",
+                        "inverse-surface": "#263143",
+                        "on-surface-variant": "#434656",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#002113",
+                        "tertiary-container": "#00724d",
+                        "surface-container-highest": "#d8e3fb",
+                        "secondary-fixed": "#d3e4fe",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "secondary": "#505f76",
+                        "on-error-container": "#93000a",
+                        "outline": "#747688",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#0046f9",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "primary-fixed": "#dde1ff",
+                        "on-secondary-container": "#54647a",
+                        "on-primary-fixed": "#001356",
+                        "surface-container-high": "#dee8ff",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed-dim": "#b9c3ff",
+                        "inverse-primary": "#b9c3ff",
+                        "outline-variant": "#c4c5d9",
+                        "on-surface": "#111c2d",
+                        "primary": "#0038ca",
+                        "inverse-on-surface": "#ecf1ff",
+                        "surface-bright": "#f9f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "12px",
+                        "xs": "4px",
+                        "container-padding": "16px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-md-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "headline-md-mobile": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md text-body-md overflow-x-hidden">
+<!-- Top AppBar (from JSON guidance) -->
+<header class="bg-surface sticky top-0 z-40 flex justify-between items-center w-full px-container-padding h-14">
+<div class="flex items-center gap-3">
+<button aria-label="Go back" class="active-state text-primary">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-headline-sm font-headline-sm font-bold text-primary">Record Visit</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5 px-3 py-1 bg-tertiary-container/10 text-tertiary rounded-full border border-tertiary/20">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<span class="text-label-md font-label-md">GPS Live</span>
+</div>
+<button class="active-state text-primary">
+<span class="material-symbols-outlined">sync</span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-container-padding pb-32">
+<!-- Customer Summary Card -->
+<section class="mt-md">
+<div class="bg-surface-container-lowest rounded-xl p-md border-l-4 border-primary shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h2 class="text-title-lg font-title-lg text-on-background" id="selected-case-name">Rajesh Kumar</h2>
+<p class="text-on-surface-variant text-body-md mt-0.5" id="selected-case-loan">Loan ID: #FL-9908234</p>
+</div>
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-label-md font-label-md" id="selected-case-bucket">
+                        Overdue: 45 Days
+                    </span>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-outline-variant">
+<div>
+<p class="text-label-md text-outline font-label-md uppercase">Outstanding</p>
+<p class="text-title-lg font-title-lg text-error" id="selected-case-outstanding">₹24,500.00</p>
+</div>
+<div>
+<p class="text-label-md text-outline font-label-md uppercase">Location</p>
+<p class="text-body-md font-medium text-on-surface truncate" id="selected-case-location">Indiranagar, Block 4</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Photo Capture Section -->
+<section class="mt-lg">
+<h3 class="text-label-md font-label-md text-outline uppercase mb-md">Mandatory Photos</h3>
+<div class="grid grid-cols-2 gap-md">
+<div class="active-state relative bg-surface-container-high rounded-xl border-2 border-dashed border-outline-variant flex flex-col items-center justify-center p-lg aspect-square text-center">
+<span class="material-symbols-outlined text-primary text-4xl mb-2">view_stream</span>
+<p class="text-label-md font-label-md text-primary">Customer Photo</p>
+<input accept="image/*" capture="camera" class="absolute inset-0 opacity-0 cursor-pointer" type="file"/>
+</div>
+<div class="active-state relative bg-surface-container-high rounded-xl border-2 border-dashed border-outline-variant flex flex-col items-center justify-center p-lg aspect-square text-center">
+<span class="material-symbols-outlined text-primary text-4xl mb-2">home</span>
+<p class="text-label-md font-label-md text-primary">Premise Photo</p>
+<input accept="image/*" capture="camera" class="absolute inset-0 opacity-0 cursor-pointer" type="file"/>
+</div>
+</div>
+</section>
+<!-- Visit Outcome Form -->
+<section class="mt-lg space-y-lg">
+<!-- Status Dropdown (Custom implementation for better UI) -->
+<div class="space-y-sm">
+<label class="text-label-md font-label-md text-outline uppercase">Visit Outcome</label>
+<div class="relative">
+<select class="w-full h-12 bg-surface-container-lowest border border-outline-variant rounded-lg px-md appearance-none focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" id="visit-status">
+<option disabled="" selected="" value="">Select Status</option>
+<option value="met">Met Customer</option>
+<option value="ptp">PTP (Promise to Pay)</option>
+<option value="locked">House Locked</option>
+<option value="refused">Refused to Pay</option>
+<option value="third_party">Met Third Party</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- PTP Fields (Conditional in logic, but static for design) -->
+<div class="grid grid-cols-2 gap-md">
+<div class="space-y-sm">
+<label class="text-label-md font-label-md text-outline uppercase">Promise Date</label>
+<div class="relative">
+<input class="w-full h-12 bg-surface-container-lowest border border-outline-variant rounded-lg px-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none" id="visit-promise-date" type="date"/>
+</div>
+</div>
+<div class="space-y-sm">
+<label class="text-label-md font-label-md text-outline uppercase">PTP Amount</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-outline font-semibold">₹</span>
+<input class="w-full h-12 bg-surface-container-lowest border border-outline-variant rounded-lg pl-7 pr-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none" id="visit-expected-amount" placeholder="0.00" type="number"/>
+</div>
+</div>
+</div>
+<!-- Remarks -->
+<div class="space-y-sm">
+<label class="text-label-md font-label-md text-outline uppercase">Visit Remarks</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-md focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none resize-none" id="visit-remarks" placeholder="Describe the conversation or observation..." rows="3"></textarea>
+</div>
+</section>
+</main>
+<!-- Bottom Actions and Offline Indicator -->
+<div class="fixed bottom-0 left-0 w-full bg-surface-container-lowest shadow-[0_-4px_24px_rgba(0,0,0,0.06)] px-container-padding pt-md pb-safe">
+<div class="flex items-center justify-center gap-2 mb-4">
+<div class="h-2 w-2 rounded-full bg-tertiary animate-pulse"></div>
+<span class="text-label-md font-label-md text-secondary">Offline Cache Enabled</span>
+</div>
+<button class="w-full h-14 bg-primary-container text-white rounded-full font-bold text-lg active-state flex items-center justify-center gap-2 shadow-lg mb-4 visit-submit" id="submit-visit-btn">
+<span class="material-symbols-outlined">save_as</span>
+            Save Visit
+        </button>
+</div>
+<!-- Hidden Map Context (Data Location Only) -->
+<div class="hidden" data-location="Bangalore" style=""></div>
+<script>
+        // Micro-interactions for form focus
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('scale-[1.01]');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('scale-[1.01]');
+            });
+        });
+
+        // Simple GPS status pulse simulation
+        setInterval(() => {
+            const gpsDot = document.querySelector('.bg-tertiary');
+            if(gpsDot) {
+                gpsDot.classList.toggle('opacity-50');
+            }
+        }, 1000);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../bridge/fincollect-bridge.js"></script>
+</body></html>
+

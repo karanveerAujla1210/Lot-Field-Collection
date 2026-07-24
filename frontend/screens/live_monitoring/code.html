@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Monitoring | LOT Field Collection CRM</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .feed-gradient {
+            background: linear-gradient(180deg, rgba(249, 249, 255, 0) 0%, rgba(249, 249, 255, 1) 100%);
+        }
+        .pulse-animation {
+            animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .5; transform: scale(1.2); }
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #c4c5d9; border-radius: 10px; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#dee8ff",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-tertiary-container": "#6df9bc",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#dde1ff",
+                        "on-background": "#111c2d",
+                        "primary": "#0038ca",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "inverse-primary": "#b9c3ff",
+                        "secondary": "#505f76",
+                        "inverse-on-surface": "#ecf1ff",
+                        "secondary-container": "#d0e1fb",
+                        "on-surface": "#111c2d",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#00573a",
+                        "surface-container-low": "#f0f3ff",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary-container": "#dadeff",
+                        "surface-variant": "#d8e3fb",
+                        "surface-container": "#e7eeff",
+                        "tertiary-container": "#00724d",
+                        "on-primary-fixed": "#001356",
+                        "surface-tint": "#0046f9",
+                        "surface-container-highest": "#d8e3fb",
+                        "primary-container": "#0f4cff",
+                        "inverse-surface": "#263143",
+                        "secondary-fixed": "#d3e4fe",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-surface-variant": "#434656",
+                        "background": "#f9f9ff",
+                        "surface-dim": "#cfdaf2",
+                        "on-primary-fixed-variant": "#0034bf",
+                        "surface-bright": "#f9f9ff",
+                        "primary-fixed-dim": "#b9c3ff",
+                        "outline": "#747688",
+                        "on-tertiary-fixed": "#002113",
+                        "on-secondary-container": "#54647a",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c4c5d9",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface": "#f9f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "xl": "32px",
+                        "gutter": "12px",
+                        "container-padding": "16px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface flex overflow-hidden">
+<!-- SIDEBAR -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant flex flex-col py-lg z-50">
+<div class="px-md mb-xl">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">LOT Field Collection CRM</h1>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-70">Loan Recovery Master</p>
+</div>
+<nav class="flex-1 flex flex-col gap-xs px-sm">
+<div class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:scale-95 duration-150 rounded-lg">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:scale-95 duration-150 rounded-lg">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="font-body-md text-body-md">Staff Management</span>
+</div>
+<!-- ACTIVE TAB -->
+<div class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container rounded-lg font-bold cursor-pointer active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="location_on" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<span class="font-body-md text-body-md">Live Monitoring</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:scale-95 duration-150 rounded-lg">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+<span class="font-body-md text-body-md">Portfolio Manager</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:scale-95 duration-150 rounded-lg">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-md text-body-md">Reports &amp; Analytics</span>
+</div>
+</nav>
+<div class="mt-auto px-md pt-lg border-t border-outline-variant flex flex-col gap-xs">
+<button class="w-full bg-primary text-on-primary py-sm rounded-xl font-bold mb-md shadow-sm hover:opacity-90 active:scale-95 transition-all">
+                Distribute Cases
+            </button>
+<div class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm text-error hover:bg-error-container transition-colors cursor-pointer rounded-lg">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</div>
+</div>
+</aside>
+<!-- MAIN CONTENT AREA -->
+<main class="ml-64 flex-1 flex flex-col h-screen overflow-hidden">
+<!-- TOP NAV BAR -->
+<header class="h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-xl shrink-0">
+<div class="flex items-center gap-lg">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full pl-xl py-xs focus:ring-2 focus:ring-primary font-body-md" placeholder="Search agents, regions, or cases..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-sm bg-surface-container text-on-surface px-md py-xs rounded-full cursor-pointer hover:bg-surface-container-high">
+<div class="w-2 h-2 bg-tertiary rounded-full pulse-animation"></div>
+<span class="font-label-md text-label-md font-bold uppercase tracking-wider">Live System Active</span>
+</div>
+<div class="flex gap-md">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary" data-icon="help_outline">help_outline</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary-fixed cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of a senior loan collection administrator with a confident expression, wearing professional attire. The background is a modern office environment with soft-focus glass partitions and corporate lighting. The style is clean, corporate photography with high-end digital retouching." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3a06CKoAZMxuPoRjTIW1VxlFOg0e6B9l6fqfTAL5HYAIGoW0xfmq4tRZ76ee7uO0zIGkfJu1BtfY_2WxXYVkkaxmkcDriULMdbXnCVnWMwzAkPBMCyp3qdNQl0zDyHtlZZ6fSj7TJI5uLzOms2DGELn_mimHum5h3soF1D9YKyPKno8gBhCvipNfjxI5BVsdFEcJ-ZHIalFktqFimFMqEnc7vbKEKEG1YzOg8cslxDUhXgESqIOCOKcQ8Dp-YlSZO6xQB7A9HGs2P"/>
+</div>
+</div>
+</div>
+</header>
+<!-- CONTENT SHELL -->
+<div class="flex-1 flex overflow-hidden">
+<!-- MAP SECTION (60%) -->
+<section class="w-[60%] relative h-full bg-surface-container overflow-hidden border-r border-outline-variant">
+<!-- Map Overlay Controls -->
+<div class="absolute top-lg left-lg z-10 flex flex-col gap-sm">
+<div class="bg-surface/90 backdrop-blur-md p-sm rounded-xl shadow-lg border border-outline-variant flex flex-col gap-xs">
+<button class="p-xs hover:bg-surface-container rounded-lg"><span class="material-symbols-outlined" data-icon="add">add</span></button>
+<hr class="border-outline-variant"/>
+<button class="p-xs hover:bg-surface-container rounded-lg"><span class="material-symbols-outlined" data-icon="remove">remove</span></button>
+</div>
+<button class="bg-surface/90 backdrop-blur-md p-sm rounded-xl shadow-lg border border-outline-variant hover:bg-surface-container">
+<span class="material-symbols-outlined" data-icon="my_location">my_location</span>
+</button>
+</div>
+<div class="absolute top-lg right-lg z-10 bg-surface/90 backdrop-blur-md px-md py-sm rounded-xl shadow-lg border border-outline-variant flex items-center gap-md">
+<div class="flex items-center gap-xs">
+<span class="w-3 h-3 bg-primary rounded-full"></span>
+<span class="font-label-md text-label-md font-bold">Executives (42)</span>
+</div>
+<div class="w-[1px] h-4 bg-outline-variant"></div>
+<div class="flex items-center gap-xs">
+<span class="w-3 h-3 bg-tertiary-fixed-dim border border-tertiary rounded-full"></span>
+<span class="font-label-md text-label-md font-bold">Visits (128)</span>
+</div>
+</div>
+<!-- The Interactive Map Container -->
+<div class="w-full h-full bg-surface-dim relative" data-location="London" style="">
+<img class="w-full h-full object-cover" data-alt="A high-contrast, detailed satellite-style map of a major metropolitan area with modern architectural landmarks visible from an isometric perspective. Overlaid on the map are translucent digital data layers, glowing blue GPS route lines connecting various points, and professional UI markers representing field agents and service locations. The lighting mimics late afternoon sun casting long, soft shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEAkY2T1KNQdola4WWmNA97tMZlqWr8P5ij11wJR30h3L_OcFwaKJR1LNlF8FRNIScWYupC0mB3po-2O2lQgMpEED3h-Yt1t5TqLiEItRNGc9tEZzxqDNqquMRWhCUaz7lrSJv2jjX8mOe-Ct1KGNi6_3bot7Rss0IIHhQadVjkVoWjYyjibeWbPhFeH9aXHt7y0FAy4fTMXKpIC6PD4EcabFq_lYHj4UfW5dss5NeGgtul5fidSxum4bLijnA3su1Nf7mpNHUvQL_"/>
+<!-- Floating GPS Markers (Mockup) -->
+<div class="absolute top-1/3 left-1/4 animate-bounce">
+<div class="relative flex items-center justify-center">
+<div class="absolute w-12 h-12 bg-primary/20 rounded-full animate-ping"></div>
+<div class="bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+<span class="material-symbols-outlined text-sm" data-icon="person">person</span>
+</div>
+<div class="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-surface text-on-surface px-sm py-[2px] rounded border border-outline-variant whitespace-nowrap shadow-md">
+<span class="font-label-md text-xs font-bold">Alex Carter</span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-1/4 right-1/3">
+<div class="relative flex items-center justify-center">
+<div class="bg-tertiary text-on-tertiary w-8 h-8 rounded-full flex items-center justify-center shadow-lg border-2 border-white cursor-pointer hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-sm" data-icon="home_pin">home_pin</span>
+</div>
+<div class="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-surface text-on-surface px-sm py-[2px] rounded border border-outline-variant whitespace-nowrap shadow-md">
+<span class="font-label-md text-xs font-bold">Visit #8291</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ACTIVITY FEED SECTION (40%) -->
+<section class="w-[40%] flex flex-col h-full bg-surface-container-lowest">
+<div class="px-xl py-lg border-b border-outline-variant flex justify-between items-center bg-surface-bright shadow-sm z-10">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Live Activity Feed</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Real-time updates from the field</p>
+</div>
+<button class="flex items-center gap-xs text-primary font-bold hover:underline">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+<span class="text-label-md uppercase">Filter</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto px-xl py-lg space-y-md relative">
+<!-- Feed Item: Payment Collected -->
+<div class="bg-white p-md rounded-xl border border-outline-variant shadow-sm flex gap-md hover:border-primary transition-colors group">
+<div class="flex-shrink-0 w-10 h-10 bg-tertiary-container rounded-full flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined" data-icon="payments" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-xs">
+<h3 class="font-title-lg text-title-lg text-on-surface">Payment Collected</h3>
+<span class="font-label-md text-label-md text-on-surface-variant">Just now</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+<span class="font-bold text-on-surface">Sarah Jenkins</span> collected <span class="font-bold text-tertiary">$450.00</span> from Case #LK-9021.
+                            </p>
+<div class="mt-sm flex gap-sm">
+<span class="bg-surface-container text-on-secondary-container px-sm py-[2px] rounded text-xs font-bold">CASH</span>
+<span class="bg-surface-container text-on-secondary-container px-sm py-[2px] rounded text-xs font-bold">VERIFIED</span>
+</div>
+</div>
+</div>
+<!-- Feed Item: Visit Recorded -->
+<div class="bg-white p-md rounded-xl border border-outline-variant shadow-sm flex gap-md hover:border-primary transition-colors group border-l-4 border-l-primary">
+<div class="flex-shrink-0 w-10 h-10 bg-primary-container rounded-full flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-xs">
+<h3 class="font-title-lg text-title-lg text-on-surface">Visit Recorded</h3>
+<span class="font-label-md text-label-md text-on-surface-variant">3 mins ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+<span class="font-bold text-on-surface">Michael Ross</span> completed visit at <span class="underline cursor-pointer hover:text-primary">21 Baker St.</span>
+</p>
+<div class="mt-sm p-sm bg-surface-container-low rounded-lg border border-outline-variant flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant text-md" data-icon="sticky_note_2">sticky_note_2</span>
+<p class="text-xs italic text-on-surface-variant">"Customer requested a callback next Tuesday for balance settlement."</p>
+</div>
+</div>
+</div>
+<!-- Feed Item: Check-in -->
+<div class="bg-white p-md rounded-xl border border-outline-variant shadow-sm flex gap-md hover:border-primary transition-colors group">
+<div class="flex-shrink-0 w-10 h-10 bg-secondary-container rounded-full flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="pin_drop" style="font-variation-settings: 'FILL' 1;">pin_drop</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-xs">
+<h3 class="font-title-lg text-title-lg text-on-surface">Check-in</h3>
+<span class="font-label-md text-label-md text-on-surface-variant">12 mins ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+<span class="font-bold text-on-surface">David Chen</span> arrived at site for Case #RE-0012.
+                            </p>
+</div>
+</div>
+<!-- Feed Item: Warning (Custom) -->
+<div class="bg-error-container/20 p-md rounded-xl border border-error/20 shadow-sm flex gap-md hover:border-error transition-colors group">
+<div class="flex-shrink-0 w-10 h-10 bg-error-container rounded-full flex items-center justify-center text-on-error-container">
+<span class="material-symbols-outlined" data-icon="report_problem">report_problem</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-xs">
+<h3 class="font-title-lg text-title-lg text-error font-bold">Unresponsive Agent</h3>
+<span class="font-label-md text-label-md text-on-error-container">25 mins ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                                Agent <span class="font-bold text-on-surface">Jessica Wu</span> has been stationary for over 20 mins outside designated zone.
+                            </p>
+<button class="mt-sm text-primary font-bold text-xs uppercase hover:underline">Contact Now</button>
+</div>
+</div>
+<!-- Feed Item: Visit Scheduled -->
+<div class="bg-white p-md rounded-xl border border-outline-variant shadow-sm flex gap-md hover:border-primary transition-colors group">
+<div class="flex-shrink-0 w-10 h-10 bg-surface-container-high rounded-full flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="event">event</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-xs">
+<h3 class="font-title-lg text-title-lg text-on-surface">New Visit Scheduled</h3>
+<span class="font-label-md text-label-md text-on-surface-variant">45 mins ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                                System auto-assigned <span class="font-bold text-on-surface">4 new visits</span> to North District Team.
+                            </p>
+</div>
+</div>
+<div class="h-32 pointer-events-none sticky bottom-0 feed-gradient"></div>
+</div>
+<!-- Footer Summary Card -->
+<div class="p-lg border-t border-outline-variant bg-surface-container-low grid grid-cols-2 gap-md">
+<div class="bg-white p-sm rounded-lg border border-outline-variant">
+<p class="text-xs text-on-surface-variant uppercase font-bold tracking-tighter">Daily Target</p>
+<div class="flex items-center justify-between mt-xs">
+<span class="font-headline-sm text-primary">68%</span>
+<div class="w-16 h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[68%]"></div>
+</div>
+</div>
+</div>
+<div class="bg-white p-sm rounded-lg border border-outline-variant">
+<p class="text-xs text-on-surface-variant uppercase font-bold tracking-tighter">Total Collected</p>
+<div class="mt-xs">
+<span class="font-headline-sm text-tertiary">$12,450</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- FAB -->
+<div class="fixed bottom-lg right-1/3 mr-[-28px] z-20 group">
+<button class="bg-primary text-on-primary w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-300">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+<span class="absolute right-16 top-1/2 -translate-y-1/2 bg-inverse-surface text-inverse-on-surface px-md py-xs rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Assign New Task</span>
+</div>
+<script>
+        // Micro-interactions for the activity feed
+        document.addEventListener('DOMContentLoaded', () => {
+            const feedItems = document.querySelectorAll('.activity-feed-item');
+            
+            // Simulation of live updates
+            setInterval(() => {
+                const pulseElements = document.querySelectorAll('.pulse-animation');
+                pulseElements.forEach(el => {
+                    el.classList.remove('pulse-animation');
+                    void el.offsetWidth; // Trigger reflow
+                    el.classList.add('pulse-animation');
+                });
+            }, 5000);
+
+            // Adding hover effects to map pins
+            const pins = document.querySelectorAll('[data-icon="home_pin"], [data-icon="person"]');
+            pins.forEach(pin => {
+                pin.parentElement.addEventListener('click', () => {
+                    alert('Viewing details for this location...');
+                });
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../bridge/fincollect-bridge.js"></script>
+</body></html>

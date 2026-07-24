@@ -1,2 +1,0 @@
--- placeholder: migrated from root supabase/migrations
--- see original file at ../supabase/migrations for full content.

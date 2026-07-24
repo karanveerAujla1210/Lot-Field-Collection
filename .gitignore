@@ -7,6 +7,7 @@ yarn-error.log
 # Build outputs & APK binaries
 dist/
 build/
+backend/dist/
 .temp/
 *.apk
 
@@ -14,9 +15,10 @@ build/
 android/.gradle/
 android/app/build/
 android/build/
-android/app/src/main/assets/public/
+mobile/android/app/src/main/assets/public/
 
 # Environment files with secrets (keep .env.example)
+.env
 .env.local
 .env.development.local
 .env.test.local

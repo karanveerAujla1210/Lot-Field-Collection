@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Staff Management | LOT Field Collection CRM</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9ff;
+        }
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c4c5d9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #747688;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-high": "#dee8ff",
+                      "on-secondary-fixed": "#0b1c30",
+                      "on-tertiary-container": "#6df9bc",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed": "#dde1ff",
+                      "on-background": "#111c2d",
+                      "primary": "#0038ca",
+                      "on-tertiary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "inverse-primary": "#b9c3ff",
+                      "secondary": "#505f76",
+                      "inverse-on-surface": "#ecf1ff",
+                      "secondary-container": "#d0e1fb",
+                      "on-surface": "#111c2d",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary": "#00573a",
+                      "surface-container-low": "#f0f3ff",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "on-primary-container": "#dadeff",
+                      "surface-variant": "#d8e3fb",
+                      "surface-container": "#e7eeff",
+                      "tertiary-container": "#00724d",
+                      "on-primary-fixed": "#001356",
+                      "surface-tint": "#0046f9",
+                      "surface-container-highest": "#d8e3fb",
+                      "primary-container": "#0f4cff",
+                      "inverse-surface": "#263143",
+                      "secondary-fixed": "#d3e4fe",
+                      "tertiary-fixed": "#6ffbbe",
+                      "on-surface-variant": "#434656",
+                      "background": "#f9f9ff",
+                      "surface-dim": "#cfdaf2",
+                      "on-primary-fixed-variant": "#0034bf",
+                      "surface-bright": "#f9f9ff",
+                      "primary-fixed-dim": "#b9c3ff",
+                      "outline": "#747688",
+                      "on-tertiary-fixed": "#002113",
+                      "on-secondary-container": "#54647a",
+                      "on-primary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "error-container": "#ffdad6",
+                      "outline-variant": "#c4c5d9",
+                      "error": "#ba1a1a",
+                      "tertiary-fixed-dim": "#4edea3",
+                      "on-tertiary-fixed-variant": "#005236",
+                      "surface": "#f9f9ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "lg": "24px",
+                      "xl": "32px",
+                      "gutter": "12px",
+                      "container-padding": "16px",
+                      "xs": "4px",
+                      "sm": "8px",
+                      "md": "16px"
+              },
+              "fontFamily": {
+                      "headline-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-md-mobile": ["Inter"],
+                      "title-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "display-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-md-mobile": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "title-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Side Navigation Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant flex flex-col py-lg z-50">
+<div class="px-md mb-xl">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">LOT Field Collection CRM</h1>
+<p class="font-label-md text-label-md text-on-surface-variant opacity-70">Loan Recovery Master</p>
+</div>
+<nav class="flex-1 space-y-xs px-sm">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg cursor-pointer active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container rounded-lg font-bold cursor-pointer active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="font-body-md text-body-md">Staff Management</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg cursor-pointer active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="location_on">location_on</span>
+<span class="font-body-md text-body-md">Live Monitoring</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg cursor-pointer active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+<span class="font-body-md text-body-md">Portfolio Manager</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg cursor-pointer active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-md text-body-md">Reports &amp; Analytics</span>
+</a>
+</nav>
+<div class="px-md mt-auto pt-lg space-y-xs border-t border-outline-variant">
+<button class="w-full flex items-center justify-center gap-sm bg-primary text-on-primary py-md rounded-xl font-bold hover:opacity-90 active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined" data-icon="assignment_ind">assignment_ind</span>
+<span class="text-body-md">Distribute Cases</span>
+</button>
+<div class="pt-md">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg text-error" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body-md text-body-md">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen relative">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 h-16 w-[calc(100%-16rem)] bg-surface border-b border-outline-variant flex justify-between items-center px-xl z-40">
+<div class="flex items-center bg-surface-container-low px-md py-xs rounded-full border border-outline-variant w-96">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full ml-sm" placeholder="Search staff, ID or territory..." type="text"/>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-md">
+<button class="p-sm hover:bg-surface-container-high rounded-full transition-colors relative cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-sm hover:bg-surface-container-high rounded-full transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+<div class="h-8 w-px bg-outline-variant"></div>
+<div class="flex items-center gap-sm cursor-pointer group">
+<div class="text-right">
+<p class="font-label-md text-on-surface font-bold">Admin User</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Super Admin</p>
+</div>
+<span class="material-symbols-outlined text-[40px] text-primary" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<div class="pt-24 px-xl pb-xl">
+<!-- Header Section -->
+<section class="flex flex-col md:flex-row md:items-end justify-between mb-xl gap-md">
+<div>
+<nav class="flex items-center gap-xs text-label-md text-on-surface-variant mb-xs">
+<span>Organization</span>
+<span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary font-bold">Staff Management</span>
+</nav>
+<h2 class="font-display-lg text-display-lg text-on-surface tracking-tight">Field Executives</h2>
+<p class="text-body-md text-on-surface-variant mt-xs">Manage your collection workforce and monitor case assignments across territories.</p>
+</div>
+<button class="flex items-center gap-sm bg-primary text-on-primary px-lg py-md rounded-xl font-bold shadow-md hover:shadow-lg transition-all active:scale-95 group">
+<span class="material-symbols-outlined group-hover:rotate-90 transition-transform" data-icon="add">add</span>
+<span class="text-body-md">Add New Executive</span>
+</button>
+</section>
+<!-- Stats Overview - Bento Style -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-md mb-xl">
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border-l-4 border-primary flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="text-label-md font-bold text-on-surface-variant">TOTAL STAFF</span>
+<span class="material-symbols-outlined text-primary opacity-20" data-icon="groups">groups</span>
+</div>
+<div class="text-display-lg font-black text-on-surface">124</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border-l-4 border-tertiary flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="text-label-md font-bold text-on-surface-variant">ACTIVE NOW</span>
+<span class="material-symbols-outlined text-tertiary opacity-20" data-icon="bolt">bolt</span>
+</div>
+<div class="text-display-lg font-black text-on-surface">98</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border-l-4 border-secondary flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="text-label-md font-bold text-on-surface-variant">ON LEAVE</span>
+<span class="material-symbols-outlined text-secondary opacity-20" data-icon="event_busy">event_busy</span>
+</div>
+<div class="text-display-lg font-black text-on-surface">26</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm border-l-4 border-error flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="text-label-md font-bold text-on-surface-variant">PENDING REVIEW</span>
+<span class="material-symbols-outlined text-error opacity-20" data-icon="notification_important">notification_important</span>
+</div>
+<div class="text-display-lg font-black text-on-surface">04</div>
+</div>
+</section>
+<!-- Filters & Table -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+<!-- Table Header/Filters -->
+<div class="p-lg border-b border-outline-variant flex flex-wrap items-center justify-between gap-md">
+<div class="flex items-center gap-md flex-1 min-w-[300px]">
+<div class="relative flex-1 max-w-sm">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline" data-icon="filter_list">filter_list</span>
+<select class="w-full bg-surface-container-low border-outline-variant rounded-lg pl-xl pr-md py-sm font-body-md text-on-surface focus:ring-primary focus:border-primary appearance-none">
+<option value="">Filter by Territory</option>
+<option value="north">North Region - Delhi NCR</option>
+<option value="south">South Region - Bangalore</option>
+<option value="west">West Region - Mumbai</option>
+<option value="east">East Region - Kolkata</option>
+</select>
+</div>
+<button class="px-md py-sm text-primary font-bold hover:bg-primary-fixed rounded-lg transition-colors">
+                            Clear Filters
+                        </button>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant text-label-md">
+<span>Showing 1-10 of 124 executives</span>
+<div class="flex gap-xs">
+<button class="w-8 h-8 flex items-center justify-center rounded-md border border-outline-variant hover:bg-surface-container-low disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md border border-outline-variant hover:bg-surface-container-low">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Main Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="px-lg py-md font-label-md text-on-surface-variant uppercase tracking-wider">Executive Name</th>
+<th class="px-lg py-md font-label-md text-on-surface-variant uppercase tracking-wider">Staff ID</th>
+<th class="px-lg py-md font-label-md text-on-surface-variant uppercase tracking-wider">Territory</th>
+<th class="px-lg py-md font-label-md text-on-surface-variant uppercase tracking-wider text-center">Active Cases</th>
+<th class="px-lg py-md font-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-lg py-md font-label-md text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Executive 1: Jitendra -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold">JI</div>
+<div>
+<p class="font-body-md text-on-surface font-bold">Jitendra</p>
+<p class="text-label-md text-on-surface-variant">9449477443 • jitendra@lotfieldcollection.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface">EMP001</td>
+<td class="px-lg py-md font-body-md text-on-surface">Bangalore</td>
+<td class="px-lg py-md text-center">
+<span class="inline-block px-sm py-xs bg-primary-container text-on-primary-fixed font-bold rounded-lg text-label-md">67</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-sm py-1 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5 animate-pulse"></span> Active
+</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded-md transition-all" title="Edit"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-xs text-on-surface-variant hover:text-tertiary hover:bg-tertiary-fixed rounded-md transition-all" title="View Performance"><span class="material-symbols-outlined" data-icon="monitoring">monitoring</span></button>
+</div>
+</td>
+</tr>
+<!-- Executive 2: Sushant -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed-variant font-bold">SU</div>
+<div>
+<p class="font-body-md text-on-surface font-bold">Sushant</p>
+<p class="text-label-md text-on-surface-variant">8700413312 • sushant@lotfieldcollection.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface">EMP002</td>
+<td class="px-lg py-md font-body-md text-on-surface">Delhi - Gurugram</td>
+<td class="px-lg py-md text-center">
+<span class="inline-block px-sm py-xs bg-primary-container text-on-primary-fixed font-bold rounded-lg text-label-md">72</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-sm py-1 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5 animate-pulse"></span> Active
+</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded-md transition-all" title="Edit"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-xs text-on-surface-variant hover:text-tertiary hover:bg-tertiary-fixed rounded-md transition-all" title="View Performance"><span class="material-symbols-outlined" data-icon="monitoring">monitoring</span></button>
+</div>
+</td>
+</tr>
+<!-- Executive 3: Rahul -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold">RA</div>
+<div>
+<p class="font-body-md text-on-surface font-bold">Rahul</p>
+<p class="text-label-md text-on-surface-variant">7042793573 • rahul@lotfieldcollection.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface">EMP003</td>
+<td class="px-lg py-md font-body-md text-on-surface">Noida - Ghaziabad - Faridabad</td>
+<td class="px-lg py-md text-center">
+<span class="inline-block px-sm py-xs bg-primary-container text-on-primary-fixed font-bold rounded-lg text-label-md">64</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-sm py-1 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5 animate-pulse"></span> Active
+</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded-md transition-all" title="Edit"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-xs text-on-surface-variant hover:text-tertiary hover:bg-tertiary-fixed rounded-md transition-all" title="View Performance"><span class="material-symbols-outlined" data-icon="monitoring">monitoring</span></button>
+</div>
+</td>
+</tr>
+<!-- Executive 4: Imteyaz -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed-variant font-bold">IM</div>
+<div>
+<p class="font-body-md text-on-surface font-bold">Imteyaz</p>
+<p class="text-label-md text-on-surface-variant">8100669081 • imteyaz@lotfieldcollection.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface">EMP004</td>
+<td class="px-lg py-md font-body-md text-on-surface">West bengal - Kolkata</td>
+<td class="px-lg py-md text-center">
+<span class="inline-block px-sm py-xs bg-primary-container text-on-primary-fixed font-bold rounded-lg text-label-md">58</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-sm py-1 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5 animate-pulse"></span> Active
+</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded-md transition-all" title="Edit"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-xs text-on-surface-variant hover:text-tertiary hover:bg-tertiary-fixed rounded-md transition-all" title="View Performance"><span class="material-symbols-outlined" data-icon="monitoring">monitoring</span></button>
+</div>
+</td>
+</tr>
+<!-- Executive 5: Anil -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold">AN</div>
+<div>
+<p class="font-body-md text-on-surface font-bold">Anil</p>
+<p class="text-label-md text-on-surface-variant">8320109581 • anil@lotfieldcollection.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface">EMP005</td>
+<td class="px-lg py-md font-body-md text-on-surface">Ahemdabad - Gujarat</td>
+<td class="px-lg py-md text-center">
+<span class="inline-block px-sm py-xs bg-primary-container text-on-primary-fixed font-bold rounded-lg text-label-md">61</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-sm py-1 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5 animate-pulse"></span> Active
+</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded-md transition-all" title="Edit"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-xs text-on-surface-variant hover:text-tertiary hover:bg-tertiary-fixed rounded-md transition-all" title="View Performance"><span class="material-symbols-outlined" data-icon="monitoring">monitoring</span></button>
+</div>
+</td>
+</tr>
+<!-- Executive 6: Prince -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed-variant font-bold">PR</div>
+<div>
+<p class="font-body-md text-on-surface font-bold">Prince</p>
+<p class="text-label-md text-on-surface-variant">6302703146 • prince@lotfieldcollection.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface">EMP006</td>
+<td class="px-lg py-md font-body-md text-on-surface">Hyderabad</td>
+<td class="px-lg py-md text-center">
+<span class="inline-block px-sm py-xs bg-primary-container text-on-primary-fixed font-bold rounded-lg text-label-md">53</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-sm py-1 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5 animate-pulse"></span> Active
+</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded-md transition-all" title="Edit"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-xs text-on-surface-variant hover:text-tertiary hover:bg-tertiary-fixed rounded-md transition-all" title="View Performance"><span class="material-symbols-outlined" data-icon="monitoring">monitoring</span></button>
+</div>
+</td>
+</tr>
+<!-- Executive 7: Abhishek -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold">AB</div>
+<div>
+<p class="font-body-md text-on-surface font-bold">Abhishek</p>
+<p class="text-label-md text-on-surface-variant">9908923165 • abhishek@lotfieldcollection.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface">EMP007</td>
+<td class="px-lg py-md font-body-md text-on-surface">Hyderabad</td>
+<td class="px-lg py-md text-center">
+<span class="inline-block px-sm py-xs bg-primary-container text-on-primary-fixed font-bold rounded-lg text-label-md">59</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-sm py-1 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5 animate-pulse"></span> Active
+</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded-md transition-all" title="Edit"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-xs text-on-surface-variant hover:text-tertiary hover:bg-tertiary-fixed rounded-md transition-all" title="View Performance"><span class="material-symbols-outlined" data-icon="monitoring">monitoring</span></button>
+</div>
+</td>
+</tr>
+<!-- Executive 8: Vijay -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed-variant font-bold">VI</div>
+<div>
+<p class="font-body-md text-on-surface font-bold">Vijay</p>
+<p class="text-label-md text-on-surface-variant">9579527355 • vijay@lotfieldcollection.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface">EMP008</td>
+<td class="px-lg py-md font-body-md text-on-surface">Mumbai</td>
+<td class="px-lg py-md text-center">
+<span class="inline-block px-sm py-xs bg-primary-container text-on-primary-fixed font-bold rounded-lg text-label-md">76</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-sm py-1 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5 animate-pulse"></span> Active
+</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded-md transition-all" title="Edit"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-xs text-on-surface-variant hover:text-tertiary hover:bg-tertiary-fixed rounded-md transition-all" title="View Performance"><span class="material-symbols-outlined" data-icon="monitoring">monitoring</span></button>
+</div>
+</td>
+</tr>
+<!-- Executive 9: Roshan -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold">RO</div>
+<div>
+<p class="font-body-md text-on-surface font-bold">Roshan</p>
+<p class="text-label-md text-on-surface-variant">9321048358 • roshan@lotfieldcollection.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface">EMP009</td>
+<td class="px-lg py-md font-body-md text-on-surface">Thane - Raigarh</td>
+<td class="px-lg py-md text-center">
+<span class="inline-block px-sm py-xs bg-primary-container text-on-primary-fixed font-bold rounded-lg text-label-md">81</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-sm py-1 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5 animate-pulse"></span> Active
+</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded-md transition-all" title="Edit"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-xs text-on-surface-variant hover:text-tertiary hover:bg-tertiary-fixed rounded-md transition-all" title="View Performance"><span class="material-symbols-outlined" data-icon="monitoring">monitoring</span></button>
+</div>
+</td>
+</tr>
+<!-- Executive 10: Ketan -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed-variant font-bold">KE</div>
+<div>
+<p class="font-body-md text-on-surface font-bold">Ketan</p>
+<p class="text-label-md text-on-surface-variant">7385313114 • ketan@lotfieldcollection.com</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md font-body-md text-on-surface">EMP010</td>
+<td class="px-lg py-md font-body-md text-on-surface">Pune</td>
+<td class="px-lg py-md text-center">
+<span class="inline-block px-sm py-xs bg-primary-container text-on-primary-fixed font-bold rounded-lg text-label-md">68</span>
+</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center px-sm py-1 rounded-full text-[10px] font-bold bg-tertiary-fixed text-on-tertiary-fixed uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5 animate-pulse"></span> Active
+</span>
+</td>
+<td class="px-lg py-md text-right">
+<div class="flex items-center justify-end gap-xs">
+<button class="p-xs text-on-surface-variant hover:text-primary hover:bg-primary-fixed rounded-md transition-all" title="Edit"><span class="material-symbols-outlined" data-icon="edit">edit</span></button>
+<button class="p-xs text-on-surface-variant hover:text-tertiary hover:bg-tertiary-fixed rounded-md transition-all" title="View Performance"><span class="material-symbols-outlined" data-icon="monitoring">monitoring</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer / Pagination -->
+<div class="px-lg py-md bg-surface-container-low border-t border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="text-label-md text-on-surface-variant">Lines per page:</span>
+<select class="bg-transparent border-none focus:ring-0 text-label-md font-bold text-on-surface cursor-pointer">
+<option>10</option>
+<option>25</option>
+<option>50</option>
+</select>
+</div>
+<div class="flex items-center gap-lg">
+<span class="text-label-md text-on-surface-variant">1-10 of 124</span>
+<div class="flex gap-sm">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors cursor-pointer" data-icon="first_page">first_page</button>
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors cursor-pointer" data-icon="chevron_left">chevron_left</button>
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors cursor-pointer" data-icon="chevron_right">chevron_right</button>
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors cursor-pointer" data-icon="last_page">last_page</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Floating Action Button (Contextual) -->
+<button class="fixed bottom-xl right-xl w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 group">
+<span class="material-symbols-outlined" data-icon="support_agent" style="font-variation-settings: 'FILL' 1;">support_agent</span>
+<span class="absolute right-16 bg-inverse-surface text-inverse-on-surface px-md py-sm rounded-lg text-label-md font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Support Desk</span>
+</button>
+</main>
+<!-- Overlay / Modal Placeholder for 'Add Executive' -->
+<div class="fixed inset-0 bg-on-background/40 backdrop-blur-sm z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300" id="addModal">
+<div class="bg-surface-container-lowest w-full max-w-lg rounded-xl shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300">
+<div class="bg-primary px-lg py-md flex justify-between items-center text-on-primary">
+<h3 class="font-headline-sm text-headline-sm">Onboard Executive</h3>
+<button class="material-symbols-outlined hover:bg-on-primary/10 rounded-full p-xs" onclick="toggleModal()">close</button>
+</div>
+<form class="p-lg space-y-md">
+<div class="grid grid-cols-2 gap-md">
+<div class="space-y-xs">
+<label class="font-label-md text-on-surface-variant ml-xs">Full Name</label>
+<input class="w-full rounded-lg border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary py-sm px-md" placeholder="e.g. John Doe" type="text"/>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-on-surface-variant ml-xs">Staff ID</label>
+<input class="w-full rounded-lg border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary py-sm px-md" placeholder="FC-2024-XXX" type="text"/>
+</div>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-on-surface-variant ml-xs">Territory Assignment</label>
+<select class="w-full rounded-lg border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary py-sm px-md">
+<option>Select Territory</option>
+<option>North Region</option>
+<option>South Region</option>
+<option>West Region</option>
+<option>East Region</option>
+</select>
+</div>
+<div class="pt-md flex justify-end gap-md border-t border-outline-variant mt-lg">
+<button class="px-lg py-md text-on-surface-variant font-bold hover:bg-surface-container-high rounded-xl transition-colors" onclick="toggleModal()" type="button">Cancel</button>
+<button class="px-lg py-md bg-primary text-on-primary font-bold rounded-xl shadow-md hover:opacity-90 active:scale-95 transition-all" type="button">Save Details</button>
+</div>
+</form>
+</div>
+</div>
+<script>
+        function toggleModal() {
+            const modal = document.getElementById('addModal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modal.children[0].classList.remove('scale-95');
+                }, 10);
+            } else {
+                modal.classList.add('opacity-0');
+                modal.children[0].classList.add('scale-95');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+        }
+
+        // Attach to the "Add New Executive" button
+        document.querySelector('button.bg-primary.text-on-primary.px-lg').addEventListener('click', toggleModal);
+        
+        // Micro-interaction for table rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', (e) => {
+                if (e.target.closest('button')) return;
+                console.log('Row clicked, navigating to detail view...');
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../bridge/fincollect-bridge.js"></script>
+</body></html>

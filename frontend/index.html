@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOT Field Collection - Master Enterprise Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .iframe-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col overflow-hidden bg-slate-950">
+
+  <!-- Unified Master Header Navigation -->
+  <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 px-4 py-2.5 flex items-center justify-between z-50">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/20">
+        FC
+      </div>
+      <div>
+        <h1 class="font-bold text-base tracking-tight text-white flex items-center gap-2">
+          LOT Field Collection <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Live Connected</span>
+        </h1>
+        <p class="text-xs text-slate-400">Enterprise Field Collection Platform</p>
+      </div>
+    </div>
+
+    <!-- Navigation Dropdown & Tab Selector -->
+    <div class="flex items-center gap-2">
+      <div class="relative">
+        <select id="screenSelector" onchange="switchScreen(this.value)" class="bg-slate-800 text-slate-100 text-sm font-medium border border-slate-700 rounded-lg px-3 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="screens/login_screen/code.html">🔑 Login Screen</option>
+          <option value="screens/admin_dashboard/code.html" selected>👑 Admin CRM Dashboard</option>
+          <option value="screens/dashboard/code.html">📱 Executive Dashboard</option>
+          <option value="screens/live_monitoring/code.html">📍 Live GPS Monitoring</option>
+          <option value="screens/portfolio_manager/code.html">💼 Portfolio Manager</option>
+          <option value="screens/customer_list/code.html">👥 Customer List</option>
+          <option value="screens/customer_details/code.html">📄 Customer Details</option>
+          <option value="screens/visit_screen/code.html">🚗 Field Visit Execution</option>
+          <option value="screens/payment_screen/code.html">💳 Payment Collection</option>
+          <option value="screens/follow_up_screen/code.html">⏰ Follow-up Reminders</option>
+          <option value="screens/reports_analytics/code.html">📊 Reports & Analytics</option>
+          <option value="screens/staff_management/code.html">👔 Staff Management</option>
+          <option value="screens/sync_screen/code.html">⚡ Offline Sync Screen</option>
+          <option value="screens/profile_screen/code.html">👤 Profile Screen</option>
+        </select>
+      </div>
+
+      <button onclick="openCurrentInNewTab()" class="px-3 py-2 text-xs font-semibold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition flex items-center gap-1.5" title="Open current view full screen">
+        <span class="material-symbols-outlined text-sm">open_in_new</span> Fullscreen
+      </button>
+    </div>
+  </header>
+
+  <!-- Navigation Bar Quick Chips -->
+  <nav class="bg-slate-900/60 border-b border-slate-800 px-4 py-1.5 flex gap-2 overflow-x-auto text-xs font-medium no-scrollbar">
+    <button onclick="switchScreen('screens/admin_dashboard/code.html')" class="chip-btn px-3 py-1 rounded-md bg-blue-600/20 text-blue-400 border border-blue-500/30 hover:bg-blue-600/30 transition flex items-center gap-1">
+      <span class="material-symbols-outlined text-xs">dashboard</span> Admin CRM
+    </button>
+    <button onclick="switchScreen('screens/dashboard/code.html')" class="chip-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition flex items-center gap-1">
+      <span class="material-symbols-outlined text-xs">smartphone</span> Mobile Exec
+    </button>
+    <button onclick="switchScreen('screens/live_monitoring/code.html')" class="chip-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition flex items-center gap-1">
+      <span class="material-symbols-outlined text-xs">location_on</span> Live GPS
+    </button>
+    <button onclick="switchScreen('screens/customer_list/code.html')" class="chip-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition flex items-center gap-1">
+      <span class="material-symbols-outlined text-xs">group</span> Customers
+    </button>
+    <button onclick="switchScreen('screens/visit_screen/code.html')" class="chip-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition flex items-center gap-1">
+      <span class="material-symbols-outlined text-xs">directions_car</span> Visit
+    </button>
+    <button onclick="switchScreen('screens/payment_screen/code.html')" class="chip-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition flex items-center gap-1">
+      <span class="material-symbols-outlined text-xs">payments</span> Collect Payment
+    </button>
+    <button onclick="switchScreen('screens/reports_analytics/code.html')" class="chip-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition flex items-center gap-1">
+      <span class="material-symbols-outlined text-xs">analytics</span> Reports
+    </button>
+    <button onclick="switchScreen('screens/login_screen/code.html')" class="chip-btn px-3 py-1 rounded-md bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition flex items-center gap-1 ml-auto">
+      <span class="material-symbols-outlined text-xs">lock</span> Login
+    </button>
+  </nav>
+
+  <!-- Main View Frame -->
+  <main class="flex-1 relative iframe-container">
+    <iframe id="mainFrame" src="screens/admin_dashboard/code.html" title="LOT Field Collection Screen View"></iframe>
+  </main>
+
+  <script>
+    function switchScreen(url) {
+      document.getElementById('mainFrame').src = url;
+      document.getElementById('screenSelector').value = url;
+      // Extract screen name from path like "screens/admin_dashboard/code.html"
+      const parts = url.split('/');
+      window.location.hash = parts.length >= 2 ? parts[parts.length - 2] : parts[0];
+    }
+
+    function openCurrentInNewTab() {
+      const currentSrc = document.getElementById('mainFrame').src;
+      window.open(currentSrc, '_blank');
+    }
+
+    // Auto load screen from hash if present
+    window.addEventListener('load', () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        const matchingUrl = 'screens/' + hash + '/code.html';
+        switchScreen(matchingUrl);
+      }
+    });
+  </script>
+</body>
+</html>

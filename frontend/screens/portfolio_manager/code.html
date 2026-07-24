@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Portfolio Manager | LOT Field Collection CRM</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c4c5d9; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #747688; }
+        
+        /* High-density table fixes */
+        tr:hover td { background-color: #f0f3ff; transition: background-color 0.15s ease; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#dee8ff",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-tertiary-container": "#6df9bc",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#dde1ff",
+                        "on-background": "#111c2d",
+                        "primary": "#0038ca",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "inverse-primary": "#b9c3ff",
+                        "secondary": "#505f76",
+                        "inverse-on-surface": "#ecf1ff",
+                        "secondary-container": "#d0e1fb",
+                        "on-surface": "#111c2d",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#00573a",
+                        "surface-container-low": "#f0f3ff",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary-container": "#dadeff",
+                        "surface-variant": "#d8e3fb",
+                        "surface-container": "#e7eeff",
+                        "tertiary-container": "#00724d",
+                        "on-primary-fixed": "#001356",
+                        "surface-tint": "#0046f9",
+                        "surface-container-highest": "#d8e3fb",
+                        "primary-container": "#0f4cff",
+                        "inverse-surface": "#263143",
+                        "secondary-fixed": "#d3e4fe",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-surface-variant": "#434656",
+                        "background": "#f9f9ff",
+                        "surface-dim": "#cfdaf2",
+                        "on-primary-fixed-variant": "#0034bf",
+                        "surface-bright": "#f9f9ff",
+                        "primary-fixed-dim": "#b9c3ff",
+                        "outline": "#747688",
+                        "on-tertiary-fixed": "#002113",
+                        "on-secondary-container": "#54647a",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c4c5d9",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface": "#f9f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "xl": "32px",
+                        "gutter": "12px",
+                        "container-padding": "16px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "16px"
+                    },
+                    "fontSize": {
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SIDE NAVIGATION SHELL -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant flex flex-col py-lg z-50">
+<div class="px-md mb-xl">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">LOT Field Collection CRM</h1>
+<p class="font-label-md text-on-surface-variant opacity-70">Loan Recovery Master</p>
+</div>
+<nav class="flex-1 flex flex-col gap-xs px-sm">
+<!-- Dashboard Tab -->
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:scale-95 duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<!-- Staff Management Tab -->
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:scale-95 duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="font-body-md">Staff Management</span>
+</a>
+<!-- Live Monitoring Tab -->
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:scale-95 duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="location_on">location_on</span>
+<span class="font-body-md">Live Monitoring</span>
+</a>
+<!-- Portfolio Manager Tab (ACTIVE) -->
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container rounded-lg font-bold cursor-pointer active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared" style="font-variation-settings: 'FILL' 1;">folder_shared</span>
+<span class="font-body-md">Portfolio Manager</span>
+</a>
+<!-- Reports Tab -->
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer active:scale-95 duration-150 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-md">Reports &amp; Analytics</span>
+</a>
+</nav>
+<div class="px-sm mt-auto flex flex-col gap-xs border-t border-outline-variant pt-md">
+<button class="w-full bg-primary text-on-primary py-sm rounded-lg font-bold shadow-md hover:bg-primary-container transition-all active:scale-[0.98]">
+                Distribute Cases
+            </button>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-error hover:bg-error-container transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- TOP NAVIGATION SHELL -->
+<header class="fixed top-0 right-0 h-16 w-[calc(100%-16rem)] bg-surface border-b border-outline-variant flex justify-between items-center px-xl z-40">
+<div class="flex items-center gap-md w-1/2">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container border-none rounded-full font-body-md focus:ring-2 focus:ring-primary" placeholder="Search Loan ID, Name, or Phone..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<button class="relative text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="flex items-center gap-sm pl-md border-l border-outline-variant">
+<div class="text-right hidden lg:block">
+<p class="font-label-md text-on-surface font-bold">Admin Officer</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Recovery Lead</p>
+</div>
+<img class="w-10 h-10 rounded-full border border-primary" data-alt="A professional headshot of a financial services administrator in a corporate setting, with soft office lighting and a neutral blurred background. The style is sharp, clean, and high-fidelity, matching a premium fintech dashboard aesthetic with professional royal blue accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAZLF-gwDXM7Tnp0o2teNA076WEOs7fJEqrHeHozZ_6Sd8sZaw5IXmUUCYyKYj_jnvSkbNAneQCfqNuH5ngYIwaHjvv6mR0wyXV80Ow9inWaE6A5jCtn3D1JabM8OB_L6E4Ico3bWKIYAjq1feia-5tL4KAXQdB3xsUeDH3CYnrSfINxLD-HNHYUM4lql61KXgqolUeIm38ebohKKY7P3ULZxnzh7fp7jWiRboEV_0f-hf_lx6QNAtlaZma1Mp-NIpYlsV8pF9LVig"/>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT CANVAS -->
+<main class="ml-64 mt-16 p-lg min-h-[calc(100vh-4rem)]">
+<!-- Header & Stats Row -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-lg gap-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-background">Portfolio Manager</h2>
+<p class="font-body-md text-on-surface-variant">Oversee and manage active debt recovery portfolios.</p>
+</div>
+<div class="flex gap-sm">
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-highest border border-outline-variant text-on-surface-variant font-bold rounded-lg hover:bg-surface-container transition-all active:scale-95">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
+                    Export to CSV
+                </button>
+<button class="flex items-center gap-xs px-md py-sm bg-primary text-on-primary font-bold rounded-lg shadow-sm hover:shadow-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-[18px]" data-icon="group_add">group_add</span>
+                    Reassign Cases
+                </button>
+</div>
+</div>
+<!-- Filter Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-md mb-lg">
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm">
+<label class="font-label-md text-on-surface-variant mb-xs block">DPD Bucket</label>
+<select class="w-full bg-surface-container-low border border-outline-variant rounded-lg font-body-md py-2 px-3 focus:border-primary focus:ring-1 focus:ring-primary">
+<option>All Buckets</option>
+<option>DPD 0 (Fresh)</option>
+<option>DPD 1-30 (Standard)</option>
+<option>DPD 31-60 (Substandard)</option>
+<option>DPD 61-90 (Doubtful)</option>
+<option>DPD 90+ (Loss)</option>
+</select>
+</div>
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm">
+<label class="font-label-md text-on-surface-variant mb-xs block">Outstanding Range</label>
+<div class="flex items-center gap-sm">
+<input class="w-1/2 bg-surface-container-low border border-outline-variant rounded-lg font-body-md py-2 px-3 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Min" type="text"/>
+<span class="text-outline">-</span>
+<input class="w-1/2 bg-surface-container-low border border-outline-variant rounded-lg font-body-md py-2 px-3 focus:border-primary focus:ring-1 focus:ring-primary" placeholder="Max" type="text"/>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm">
+<label class="font-label-md text-on-surface-variant mb-xs block">Assigned Executive</label>
+<select class="w-full bg-surface-container-low border border-outline-variant rounded-lg font-body-md py-2 px-3 focus:border-primary focus:ring-1 focus:ring-primary">
+<option>All Executives</option>
+<option>Rahul S.</option>
+<option>Priya M.</option>
+<option>Amit K.</option>
+</select>
+</div>
+<div class="bg-primary-container/10 p-md rounded-xl border border-primary/20 flex items-center justify-between">
+<div>
+<p class="font-label-md text-on-primary-fixed-variant">Total Portfolio Value</p>
+<p class="font-display-lg text-primary font-black">$4,280,000</p>
+</div>
+<span class="material-symbols-outlined text-primary text-[40px]" data-icon="account_balance">account_balance</span>
+</div>
+</div>
+<!-- High Density Data Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden flex flex-col">
+<!-- Table Controls -->
+<div class="px-md py-sm bg-surface-container-low border-b border-outline-variant flex justify-between items-center">
+<div class="flex gap-md items-center">
+<label class="flex items-center gap-sm cursor-pointer">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span class="font-label-md text-on-surface font-bold uppercase tracking-tighter">Select All</span>
+</label>
+<span class="text-outline-variant">|</span>
+<p class="font-label-md text-on-surface-variant italic">24 cases selected</p>
+</div>
+<div class="flex gap-sm">
+<button class="p-1 hover:bg-surface-container-high rounded text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span>
+</button>
+<button class="p-1 hover:bg-surface-container-high rounded text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse min-w-[1000px]">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-md py-3 font-label-md text-on-surface-variant uppercase tracking-wider border-b border-outline-variant"></th>
+<th class="px-md py-3 font-label-md text-on-surface-variant uppercase tracking-wider border-b border-outline-variant">Loan ID</th>
+<th class="px-md py-3 font-label-md text-on-surface-variant uppercase tracking-wider border-b border-outline-variant">Customer Name</th>
+<th class="px-md py-3 font-label-md text-on-surface-variant uppercase tracking-wider border-b border-outline-variant">Outstanding Amt</th>
+<th class="px-md py-3 font-label-md text-on-surface-variant uppercase tracking-wider border-b border-outline-variant">DPD Bucket</th>
+<th class="px-md py-3 font-label-md text-on-surface-variant uppercase tracking-wider border-b border-outline-variant">Executive</th>
+<th class="px-md py-3 font-label-md text-on-surface-variant uppercase tracking-wider border-b border-outline-variant">Status</th>
+<th class="px-md py-3 font-label-md text-on-surface-variant uppercase tracking-wider border-b border-outline-variant">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md divide-y divide-outline-variant">
+<!-- Row 1: Overdue DPD 90+ -->
+<tr class="group">
+<td class="px-md py-3 w-8">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+</td>
+<td class="px-md py-3 font-bold text-primary">#FC-9021-33</td>
+<td class="px-md py-3">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-error-container text-error flex items-center justify-center font-bold text-[10px]">JD</div>
+<span class="font-medium">Jonathan Doe</span>
+</div>
+</td>
+<td class="px-md py-3 font-bold">$12,450.00</td>
+<td class="px-md py-3">
+<span class="px-2 py-1 bg-error-container text-error text-[11px] font-black rounded-md uppercase border border-error/20">DPD 90+</span>
+</td>
+<td class="px-md py-3">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="person">person</span>
+                                    Amit K.
+                                </div>
+</td>
+<td class="px-md py-3">
+<div class="flex items-center gap-xs text-error font-medium">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+                                    Critical
+                                </div>
+</td>
+<td class="px-md py-3">
+<button class="p-1 hover:bg-primary-container/10 rounded-full text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="edit_square">edit_square</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Standard DPD 30 -->
+<tr class="group">
+<td class="px-md py-3 w-8">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+</td>
+<td class="px-md py-3 font-bold text-primary">#FC-4412-09</td>
+<td class="px-md py-3">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-[10px]">SR</div>
+<span class="font-medium">Sarah Richardson</span>
+</div>
+</td>
+<td class="px-md py-3 font-bold">$3,120.00</td>
+<td class="px-md py-3">
+<span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant text-[11px] font-black rounded-md uppercase border border-tertiary/20">DPD 30</span>
+</td>
+<td class="px-md py-3">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="person">person</span>
+                                    Priya M.
+                                </div>
+</td>
+<td class="px-md py-3">
+<div class="flex items-center gap-xs text-tertiary font-medium">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                                    Improving
+                                </div>
+</td>
+<td class="px-md py-3">
+<button class="p-1 hover:bg-primary-container/10 rounded-full text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="edit_square">edit_square</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Fresh DPD 0 -->
+<tr class="group">
+<td class="px-md py-3 w-8">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+</td>
+<td class="px-md py-3 font-bold text-primary">#FC-1102-88</td>
+<td class="px-md py-3">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center font-bold text-[10px]">MK</div>
+<span class="font-medium">Michael Knight</span>
+</div>
+</td>
+<td class="px-md py-3 font-bold">$125,000.00</td>
+<td class="px-md py-3">
+<span class="px-2 py-1 bg-surface-container-high text-on-surface-variant text-[11px] font-black rounded-md uppercase border border-outline-variant">DPD 0</span>
+</td>
+<td class="px-md py-3">
+<div class="flex items-center gap-xs italic text-outline">
+<span class="material-symbols-outlined text-[16px]" data-icon="person_off">person_off</span>
+                                    Unassigned
+                                </div>
+</td>
+<td class="px-md py-3">
+<div class="flex items-center gap-xs text-on-surface-variant font-medium">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+                                    New Lead
+                                </div>
+</td>
+<td class="px-md py-3">
+<button class="p-1 hover:bg-primary-container/10 rounded-full text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="edit_square">edit_square</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Doubtful DPD 60 -->
+<tr class="group">
+<td class="px-md py-3 w-8">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+</td>
+<td class="px-md py-3 font-bold text-primary">#FC-5590-21</td>
+<td class="px-md py-3">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-warning-container bg-[#ffedcc] text-[#854d0e] flex items-center justify-center font-bold text-[10px]">AL</div>
+<span class="font-medium">Angela Lopez</span>
+</div>
+</td>
+<td class="px-md py-3 font-bold">$7,800.50</td>
+<td class="px-md py-3">
+<span class="px-2 py-1 bg-[#ffedcc] text-[#854d0e] text-[11px] font-black rounded-md uppercase border border-[#854d0e]/20">DPD 60</span>
+</td>
+<td class="px-md py-3">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="person">person</span>
+                                    Rahul S.
+                                </div>
+</td>
+<td class="px-md py-3">
+<div class="flex items-center gap-xs text-[#854d0e] font-medium">
+<span class="w-2 h-2 rounded-full bg-[#854d0e]"></span>
+                                    Follow-up Required
+                                </div>
+</td>
+<td class="px-md py-3">
+<button class="p-1 hover:bg-primary-container/10 rounded-full text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="edit_square">edit_square</span>
+</button>
+</td>
+</tr>
+<!-- Row 5: More Dummy Rows for Density -->
+<tr class="group opacity-70">
+<td class="px-md py-3 w-8"><input class="w-4 h-4 rounded" type="checkbox"/></td>
+<td class="px-md py-3 font-bold text-primary">#FC-2210-44</td>
+<td class="px-md py-3">William Taylor</td>
+<td class="px-md py-3 font-bold">$2,400.00</td>
+<td class="px-md py-3"><span class="px-2 py-1 bg-surface-container-high text-on-surface-variant text-[11px] font-black rounded-md">DPD 0</span></td>
+<td class="px-md py-3">Priya M.</td>
+<td class="px-md py-3 text-secondary">Settled</td>
+<td class="px-md py-3">
+<button class="p-1 text-primary"><span class="material-symbols-outlined">edit_square</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-md py-3 bg-surface-container-lowest border-t border-outline-variant flex justify-between items-center">
+<p class="font-label-md text-on-surface-variant">Showing 1-10 of 1,248 accounts</p>
+<div class="flex gap-xs">
+<button class="w-8 h-8 rounded border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded border border-primary bg-primary text-on-primary flex items-center justify-center font-bold text-xs">1</button>
+<button class="w-8 h-8 rounded border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors text-xs font-bold">2</button>
+<button class="w-8 h-8 rounded border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors text-xs font-bold">3</button>
+<span class="px-2">...</span>
+<button class="w-8 h-8 rounded border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors text-xs font-bold">125</button>
+<button class="w-8 h-8 rounded border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- FAB for Quick Actions -->
+<button class="fixed bottom-lg right-lg w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all group z-50">
+<span class="material-symbols-outlined text-[28px] group-hover:rotate-90 transition-transform duration-300" data-icon="add">add</span>
+<div class="absolute right-16 px-4 py-2 bg-inverse-surface text-on-primary rounded-lg text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                Add New Case
+            </div>
+</button>
+</main>
+<script>
+        // Micro-interactions: Table Row Highlighting Logic
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'SPAN') {
+                    const checkbox = row.querySelector('input[type="checkbox"]');
+                    if (checkbox) checkbox.checked = !checkbox.checked;
+                }
+            });
+        });
+
+        // Simple Search Simulation
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            document.querySelectorAll('tbody tr').forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(val) ? '' : 'none';
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../bridge/fincollect-bridge.js"></script>
+</body></html>

@@ -1,12 +1,12 @@
 {
   "version": 2,
   "name": "lot-field-collection-crm",
-  "outputDirectory": ".",
+  "outputDirectory": "frontend",
   "cleanUrls": true,
   "redirects": [
     {
       "source": "/",
-      "destination": "/login_screen/code.html",
+      "destination": "/index.html",
       "permanent": false
     }
   ],

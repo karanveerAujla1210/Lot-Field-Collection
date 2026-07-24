@@ -1,13 +1,14 @@
 {
-  "name": "lot-field-collection-backend",
+  "name": "lot-field-collection",
   "version": "1.0.0",
-  "description": "Enterprise Backend for LOT Field Collection Field Collection Platform",
-  "main": "dist/backend/index.js",
-  "types": "dist/backend/index.d.ts",
+  "description": "LOT Field Collection - Enterprise Field Collection Platform (Monorepo Root)",
+  "private": true,
   "scripts": {
-    "build": "tsc",
-    "type-check": "tsc --noEmit",
-    "start": "npx -y http-server . -p 3000 -c-1"
+    "dev": "npx -y http-server ./frontend -p 3000 -c-1 --cors",
+    "build:backend": "cd backend && tsc",
+    "type-check": "cd backend && tsc --noEmit",
+    "build:www": "node scripts/build-www.js",
+    "start": "npm run dev"
   },
   "dependencies": {
     "@capacitor/android": "^8.0.0",
