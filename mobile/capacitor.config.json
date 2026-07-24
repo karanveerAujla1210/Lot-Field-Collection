@@ -1,0 +1,6 @@
+{
+  "appId": "com.lotfieldcollection.app",
+  "appName": "LOT Field Collection",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}
