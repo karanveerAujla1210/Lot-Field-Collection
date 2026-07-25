@@ -31,7 +31,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'lot-auth-store',
-      partialize: (state) => ({ role: state.role }),
+      partialize: (state) => ({ role: state.role, user: state.user }),
     }
   )
 )

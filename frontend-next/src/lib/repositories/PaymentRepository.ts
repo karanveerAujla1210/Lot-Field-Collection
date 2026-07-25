@@ -11,7 +11,10 @@ export const PaymentRepository = {
         .order('created_at', { ascending: false }).limit(20)
       if (error) throw error
       return (data ?? []) as CasePayment[]
-    } catch (e) { handleApiError(e) }
+    } catch (e) {
+      handleApiError(e)
+      return []
+    }
   },
 
   async create(payload: CreatePaymentPayload): Promise<CasePayment> {
@@ -21,7 +24,10 @@ export const PaymentRepository = {
       if (error) throw error
       if (!data) throw new Error('Payment not returned after insert')
       return data as CasePayment
-    } catch (e) { handleApiError(e) }
+    } catch (e) {
+      handleApiError(e)
+      throw e
+    }
   },
 
   async findAll(): Promise<Pick<CasePayment, 'amount_paid' | 'created_at'>[]> {
@@ -30,6 +36,9 @@ export const PaymentRepository = {
         .from('case_payments').select('amount_paid, created_at').order('created_at', { ascending: true })
       if (error) throw error
       return data ?? []
-    } catch (e) { handleApiError(e) }
+    } catch (e) {
+      handleApiError(e)
+      return []
+    }
   },
 }

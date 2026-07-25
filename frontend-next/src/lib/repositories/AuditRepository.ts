@@ -6,7 +6,10 @@ export const AuditRepository = {
     try {
       const { error } = await getApiClient().from('audit_logs').insert(payload)
       if (error) throw error
-    } catch (e) { handleApiError(e) }
+    } catch (e) {
+      handleApiError(e)
+      // Silently fail for audit logs
+    }
   },
 
   async findAll(limit = 100): Promise<AuditLog[]> {
@@ -16,7 +19,10 @@ export const AuditRepository = {
         .order('created_at', { ascending: false }).limit(limit)
       if (error) throw error
       return (data ?? []) as AuditLog[]
-    } catch (e) { handleApiError(e) }
+    } catch (e) {
+      handleApiError(e)
+      return []
+    }
   },
 
   async findByUser(userId: string, limit = 50): Promise<AuditLog[]> {
@@ -26,6 +32,9 @@ export const AuditRepository = {
         .order('created_at', { ascending: false }).limit(limit)
       if (error) throw error
       return (data ?? []) as AuditLog[]
-    } catch (e) { handleApiError(e) }
+    } catch (e) {
+      handleApiError(e)
+      return []
+    }
   },
 }

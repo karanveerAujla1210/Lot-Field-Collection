@@ -10,7 +10,10 @@ export const CaseRepository = {
       const { data, error } = await query
       if (error) throw error
       return data ?? []
-    } catch (e) { handleApiError(e) }
+    } catch (e) {
+      handleApiError(e)
+      return []
+    }
   },
 
   async findById(id: string): Promise<CaseRow | null> {
@@ -18,6 +21,9 @@ export const CaseRepository = {
       const { data, error } = await getApiClient().from('cases').select('*').eq('id', id).single()
       if (error) throw error
       return data
-    } catch (e) { handleApiError(e) }
+    } catch (e) {
+      handleApiError(e)
+      return null
+    }
   },
 }

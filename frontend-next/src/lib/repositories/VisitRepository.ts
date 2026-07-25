@@ -11,7 +11,10 @@ export const VisitRepository = {
         .order('created_at', { ascending: false }).limit(20)
       if (error) throw error
       return (data ?? []) as CaseVisit[]
-    } catch (e) { handleApiError(e) }
+    } catch (e) {
+      handleApiError(e)
+      return []
+    }
   },
 
   async create(payload: CreateVisitPayload): Promise<CaseVisit> {
@@ -21,7 +24,10 @@ export const VisitRepository = {
       if (error) throw error
       if (!data) throw new Error('Visit not returned after insert')
       return data as CaseVisit
-    } catch (e) { handleApiError(e) }
+    } catch (e) {
+      handleApiError(e)
+      throw e
+    }
   },
 
   async uploadPhotos(caseId: string, photos: File[]): Promise<string[]> {
@@ -37,7 +43,10 @@ export const VisitRepository = {
         })
         if (error) throw error
         paths.push(path)
-      } catch (e) { handleApiError(e) }
+      } catch (e) {
+        handleApiError(e)
+        // Continue with other photos even if one fails
+      }
     }
     return paths
   },

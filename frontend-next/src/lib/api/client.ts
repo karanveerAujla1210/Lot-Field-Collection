@@ -11,7 +11,10 @@ export class ApiError extends Error {
   }
 }
 
-export function handleApiError(error: unknown): never {
-  if (error instanceof Error) throw new ApiError(error.message)
-  throw new ApiError('An unexpected error occurred')
+export function handleApiError(error: unknown): void {
+  if (error instanceof Error) {
+    console.error('API Error:', error.message)
+  } else {
+    console.error('API Error: An unexpected error occurred')
+  }
 }
