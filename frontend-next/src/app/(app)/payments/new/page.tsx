@@ -52,7 +52,7 @@ export default function NewPaymentPage() {
         executiveName: user.email ?? 'Field Executive',
         branchName: selectedCase.branch_name ?? selectedCase.state_name,
       })
-      toast.success(`Payment saved! Receipt: ${result.receiptNumber}`)
+      toast.success(result ? `Payment saved! Receipt: ${result.receiptNumber}` : 'Payment queued for sync')
       router.back()
     } catch (err: unknown) {
       toast.error(`Failed: ${err instanceof Error ? err.message : 'Unknown error'}`)
