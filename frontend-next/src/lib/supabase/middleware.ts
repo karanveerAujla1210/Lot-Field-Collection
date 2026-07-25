@@ -45,7 +45,7 @@ export async function updateSession(request: NextRequest) {
   // Guard admin paths — single DB call only when needed
   if (user && ADMIN_PATHS.some(p => pathname.startsWith(p))) {
     const { data: profile } = await supabase
-      .from('users')
+      .from('staff')
       .select('role')
       .eq('id', user.id)
       .single()

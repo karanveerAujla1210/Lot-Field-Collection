@@ -13,7 +13,7 @@ type RoleProfile = { roles: { code: string } | null }
 
 async function loadRole(userId: string) {
   const { data } = await getSupabaseClient()
-    .from('users')
+    .from('staff')
     .select('role')
     .eq('id', userId)
     .single()
