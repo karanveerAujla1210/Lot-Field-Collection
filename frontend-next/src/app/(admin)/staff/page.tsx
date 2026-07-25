@@ -8,15 +8,15 @@ import { Users, UserPlus, Mail, X, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 const ROLE_COLORS: Record<string, string> = {
-  super_admin: 'bg-purple-100 text-purple-800',
-  admin: 'bg-blue-100 text-blue-800',
-  executive: 'bg-emerald-100 text-emerald-800',
+  SUPER_ADMIN: 'bg-purple-100 text-purple-800',
+  ADMIN: 'bg-blue-100 text-blue-800',
+  FIELD_EXECUTIVE: 'bg-emerald-100 text-emerald-800',
 }
 
 export default function StaffPage() {
   const { data: staff = [], isLoading } = useStaff()
   const createStaff = useCreateStaff()
-  const activeStaff = staff.filter(s => s.is_active)
+  const activeStaff = staff.filter(s => s.status === 'ACTIVE')
   const [showModal, setShowModal] = useState(false)
   const [form, setForm] = useState({
     email: '', password: '', fullName: '', phone: '',
@@ -55,7 +55,7 @@ export default function StaffPage() {
           {[
             { label: 'Total Staff', value: staff.length },
             { label: 'Active', value: activeStaff.length },
-            { label: 'Executives', value: staff.filter(s => s.role === 'executive').length },
+            { label: 'Executives', value: staff.filter(s => s.roles?.code === 'FIELD_EXECUTIVE').length },
           ].map(({ label, value }) => (
             <div key={label} className="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-3">
               <div className="w-10 h-10 bg-blue-50 dark:bg-blue-950 rounded-xl flex items-center justify-center">
@@ -103,14 +103,14 @@ export default function StaffPage() {
                       <span className="flex items-center gap-1"><Mail size={12} />{s.email}</span>
                     </td>
                     <td className="px-5 py-3">
-                      <Badge className={`text-[10px] ${ROLE_COLORS[s.role ?? 'executive']}`}>
-                        {s.role ?? 'executive'}
+                      <Badge className={`text-[10px] ${ROLE_COLORS[s.roles?.code ?? 'FIELD_EXECUTIVE']}`}>
+                        {s.roles?.code ?? 'FIELD_EXECUTIVE'}
                       </Badge>
                     </td>
-                    <td className="px-5 py-3 text-slate-500">{s.branch_name ?? 'N/A'}</td>
+                    <td className="px-5 py-3 text-slate-500">{s.branch_id ?? 'N/A'}</td>
                     <td className="px-5 py-3">
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${s.is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
-                        {s.is_active ? 'Active' : 'Inactive'}
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${s.status === 'ACTIVE' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
+                        {s.status ?? 'Active'}
                       </span>
                     </td>
                   </tr>

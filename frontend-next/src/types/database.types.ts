@@ -8,30 +8,54 @@ export type Json =
 
 export interface CaseRow {
   id: string
+  lead_id: number | null
+  state_name: string | null
+  branch_name: string | null
+  customer_code: string | null
+  pan_number: string | null
   loan_no: string | null
   customer_name: string | null
   mobile_number: string | null
+  email: string | null
   loan_amount: number | null
-  loan_repay_amount: number | null
-  total_collected_amount: number | null
+  net_disbursed_amount: number | null
+  admin_fee: number | null
+  admin_fee_gst: number | null
+  total_admin_fee: number | null
+  igst: number | null
+  cgst: number | null
+  sgst: number | null
+  processing: number | null
   tenure: number | null
-  due_days: number | null
-  bucket: string | null
-  loan_status: string | null
-  branch_name: string | null
-  state_name: string | null
+  roi: number | null
+  loan_repay_amount: number | null
+  disbursement_date: string | null
+  repayment_date: string | null
+  customer_bank_account: string | null
+  customer_bank_name: string | null
+  customer_bank_ifsc: string | null
+  disbursement_reference: string | null
+  disbursement_status: string | null
+  repeat_type: string | null
+  sanctioned_by: string | null
+  approved_by: string | null
   house_address: string | null
   office_address: string | null
-  latitude: number | null
-  longitude: number | null
+  due_days: number | null
+  bucket: string | null
+  month: string | null
+  loan_status: string | null
+  total_collected_amount: number | null
+  last_payment_amount: number | null
+  last_payment_at: string | null
+  payment_count: number | null
   last_visit_at: string | null
   last_visit_status: string | null
   visit_count: number | null
-  last_payment_at: string | null
-  last_payment_amount: number | null
-  payment_count: number | null
   assigned_executive_id: string | null
   assigned_executive_name: string | null
+  latitude: number | null
+  longitude: number | null
   created_at: string | null
   updated_at: string | null
 }
@@ -45,7 +69,7 @@ export interface CasePayment {
   executive_name: string | null
   branch_name: string | null
   amount_paid: number
-  payment_mode: 'CASH' | 'UPI' | 'CHEQUE' | 'NEFT'
+  payment_mode: string
   payment_reference: string | null
   receipt_number: string
   notes: string | null
@@ -75,17 +99,23 @@ export interface CaseVisit {
   created_at: string | null
 }
 
-// Matches the flat users table from migration 20260724000004
+// Matches the users table from migration 20260723000000
 export interface StaffUser {
   id: string
-  employee_code: string | null
-  email: string | null
-  full_name: string | null
-  phone: string | null
-  role: 'super_admin' | 'admin' | 'executive' | null
-  branch_name: string | null
-  is_active: boolean | null
-  created_at: string | null
+  employee_code: string
+  full_name: string
+  email: string
+  phone: string
+  role_id: string
+  branch_id: string | null
+  avatar_url: string | null
+  status: string
+  device_id: string | null
+  device_name: string | null
+  last_login_at: string | null
+  created_at: string
+  updated_at: string
+  roles?: { code: string }
 }
 
 export interface FollowUp {

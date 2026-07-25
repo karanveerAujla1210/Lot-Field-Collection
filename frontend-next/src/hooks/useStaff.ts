@@ -11,7 +11,7 @@ export function useStaff() {
       const supabase = getSupabaseClient()
       const { data, error } = await supabase
         .from('users')
-        .select('*')
+        .select('*, roles(code)')
         .order('created_at', { ascending: false })
       if (error) throw error
       return (data ?? []) as StaffUser[]
@@ -53,11 +53,11 @@ export function useToggleStaffStatus() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ id, isActive }: { id: string; isActive: boolean }) => {
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
       const supabase = getSupabaseClient()
       const { error } = await supabase
         .from('users')
-        .update({ is_active: isActive })
+        .update({ status })
         .eq('id', id)
       if (error) throw error
     },

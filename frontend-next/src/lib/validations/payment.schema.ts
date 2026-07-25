@@ -5,7 +5,7 @@ export const paymentSchema = z.object({
     (val) => (val === '' || val === undefined ? undefined : Number(val)),
     z.number().min(1, 'Amount must be greater than 0')
   ),
-  paymentMode: z.enum(['CASH', 'UPI', 'CHEQUE', 'NEFT']),
+  paymentMode: z.enum(['CASH', 'UPI', 'CHEQUE', 'NEFT', 'POS_CARD', 'NET_BANKING']),
   referenceUpi: z.string().optional(),
   referenceCheque: z.string().optional(),
   referenceNeft: z.string().optional(),

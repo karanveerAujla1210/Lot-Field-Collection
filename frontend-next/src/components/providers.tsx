@@ -14,10 +14,10 @@ type RoleProfile = { roles: { code: string } | null }
 async function loadRole(userId: string) {
   const { data } = await getSupabaseClient()
     .from('users')
-    .select('role')
+    .select('roles(code)')
     .eq('id', userId)
     .single()
-  return toAppRole((data as { role?: string } | null)?.role)
+  return toAppRole((data as { roles?: { code: string } } | null)?.roles?.code)
 }
 
 function AuthRehydrator() {

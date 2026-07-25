@@ -40,10 +40,10 @@ export default function LoginPage() {
       // Fetch the normalized role once on login and cache it in the store.
       const { data: profile } = await supabase
         .from('users')
-        .select('role')
+        .select('roles(code)')
         .eq('id', authData.user.id)
         .single()
-      const role = toAppRole((profile as { role?: string } | null)?.role)
+      const role = toAppRole((profile as { roles?: { code: string } } | null)?.roles?.code)
       setRole(role)
       setLoading(false)
 
