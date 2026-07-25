@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
-  "rootDirectory": "frontend-next",
-  "buildCommand": "cd .. && npm install && npm run build --workspace=frontend-next",
-  "installCommand": "npm install --prefix .."
+  "buildCommand": "npm run build --workspace=frontend-next",
+  "installCommand": "npm install",
+  "outputDirectory": "frontend-next/.next"
 }
