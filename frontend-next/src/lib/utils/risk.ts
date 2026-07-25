@@ -8,11 +8,9 @@ export function deriveOutstanding(caseRow: CaseRow): number {
   return target
 }
 
-export function deriveEmi(caseRow: CaseRow): number {
-  const tenure = toNumber(caseRow.tenure)
-  const total = toNumber(caseRow.loan_repay_amount ?? caseRow.loan_amount)
-  if (tenure > 0) return total / tenure
-  return total
+export function deriveRepaymentAmount(caseRow: CaseRow): number {
+  // Single repayment amount from database (not EMI/installment based)
+  return toNumber(caseRow.loan_repay_amount ?? caseRow.loan_amount)
 }
 
 export type RiskLevel = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'

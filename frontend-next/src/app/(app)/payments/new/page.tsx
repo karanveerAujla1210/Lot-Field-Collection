@@ -7,7 +7,7 @@ import { useAuthStore } from '@/stores/useAuthStore'
 import { useSubmitPayment } from '@/hooks/usePayments'
 import { paymentSchema, type PaymentFormData } from '@/lib/validations/payment.schema'
 import { formatCurrency } from '@/lib/utils/currency'
-import { deriveOutstanding, deriveEmi } from '@/lib/utils/risk'
+import { deriveOutstanding, deriveRepaymentAmount } from '@/lib/utils/risk'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Loader2 } from 'lucide-react'
@@ -26,8 +26,8 @@ export default function NewPaymentPage() {
   const submitPayment = useSubmitPayment()
 
   const outstanding = selectedCase ? deriveOutstanding(selectedCase) : 0
-  const emi = selectedCase ? deriveEmi(selectedCase) : 0
-  const suggested = Math.max(Math.round(Math.min(outstanding, emi)), 1)
+  const repaymentAmount = selectedCase ? deriveRepaymentAmount(selectedCase) : 0
+  const suggested = Math.max(Math.round(Math.min(outstanding, repaymentAmount)), 1)
 
   const { register, handleSubmit, formState: { errors }, watch } = useForm<PaymentFormData>({
     resolver: zodResolver(paymentSchema) as never,
@@ -81,7 +81,7 @@ export default function NewPaymentPage() {
           <p className="font-bold text-emerald-800 dark:text-emerald-300">{selectedCase.customer_name}</p>
           <div className="flex gap-4 mt-1 text-xs text-emerald-600">
             <span>Outstanding: {formatCurrency(outstanding)}</span>
-            <span>EMI: {formatCurrency(emi)}</span>
+            <span>Repayment: {formatCurrency(repaymentAmount)}</span>
           </div>
         </div>
 
