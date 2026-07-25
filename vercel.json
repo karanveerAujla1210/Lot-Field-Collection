@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm run build --workspace=frontend-next",
+  "buildCommand": "next build",
   "installCommand": "npm install",
-  "outputDirectory": "frontend-next/.next"
+  "framework": "nextjs"
 }
