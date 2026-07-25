@@ -9,10 +9,12 @@ import { toast } from 'sonner'
 import { loginSchema, type LoginFormData } from '@/lib/validations/login.schema'
 import { getSupabaseClient } from '@/lib/supabase/client'
 import { useAuthStore } from '@/stores/useAuthStore'
+import { isAdminRole, toAppRole } from '@/lib/auth/roles'
+import { AuditRepository } from '@/lib/repositories/AuditRepository'
 
 export default function LoginPage() {
   const router = useRouter()
-  const { setSession } = useAuthStore()
+  const { setSession, setRole, setLoading } = useAuthStore()
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -29,9 +31,35 @@ export default function LoginPage() {
         password: data.password,
       })
       if (error) throw error
+      if (!authData.session || !authData.user) {
+        throw new Error('Login succeeded but no session was returned')
+      }
+
       setSession(authData.session)
-      toast.success('Login successful! Redirecting...')
-      router.push('/dashboard/admin')
+
+      // Fetch the normalized role once on login and cache it in the store.
+      const { data: profile } = await supabase
+        .from('users')
+        .select('role')
+        .eq('id', authData.user.id)
+        .single()
+      const role = toAppRole((profile as { role?: string } | null)?.role)
+      setRole(role)
+      setLoading(false)
+
+      // Audit log — fire and forget
+      AuditRepository.create({
+        user_id: authData.user.id,
+        user_email: authData.user.email ?? null,
+        action: 'LOGIN',
+        entity_type: null,
+        entity_id: null,
+        metadata: { role },
+      }).catch(() => {})
+
+      toast.success('Login successful!')
+      router.replace(isAdminRole(role) ? '/dashboard/admin' : '/dashboard')
+      router.refresh()
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Login failed'
       toast.error(`Login failed: ${message}`)
@@ -42,7 +70,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#f9f9ff] flex flex-col">
-      {/* Header */}
       <header className="flex justify-between items-center w-full px-4 h-14 bg-white border-b border-slate-100 fixed top-0 z-50">
         <div className="flex items-center gap-2">
           <Building2 className="text-blue-700" size={22} />
@@ -53,10 +80,8 @@ export default function LoginPage() {
         </div>
       </header>
 
-      {/* Main */}
       <main className="flex-grow flex items-center justify-center px-4 py-8 mt-14">
         <div className="w-full max-w-[400px] flex flex-col gap-6">
-          {/* Hero */}
           <div className="text-center space-y-2">
             <div className="w-20 h-20 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Lock className="text-blue-700" size={40} />
@@ -65,10 +90,8 @@ export default function LoginPage() {
             <p className="text-sm text-slate-500">Access your secure agent dashboard</p>
           </div>
 
-          {/* Form Card */}
           <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-              {/* Email */}
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-slate-700" htmlFor="email">
                   Email Address
@@ -76,16 +99,13 @@ export default function LoginPage() {
                 <input
                   id="email"
                   type="email"
-                  placeholder="admin@company.com"
+                  placeholder="agent@company.com"
                   className="w-full h-12 px-4 border border-slate-200 rounded-lg focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm bg-white"
                   {...register('email')}
                 />
-                {errors.email && (
-                  <p className="text-xs text-red-500">{errors.email.message}</p>
-                )}
+                {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
               </div>
 
-              {/* Password */}
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-slate-700" htmlFor="password">
                   Password
@@ -106,21 +126,23 @@ export default function LoginPage() {
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
-                {errors.password && (
-                  <p className="text-xs text-red-500">{errors.password.message}</p>
-                )}
+                {errors.password && <p className="text-xs text-red-500">{errors.password.message}</p>}
               </div>
 
-              {/* Options */}
               <div className="flex items-center justify-between">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" className="rounded border-slate-300 text-blue-600" {...register('rememberMe')} />
                   <span className="text-xs text-slate-600">Remember Me</span>
                 </label>
-                <a href="#" className="text-xs text-blue-600 font-semibold hover:underline">Forgot Password?</a>
+                <button
+                  type="button"
+                  onClick={() => toast.info('Contact your admin to reset your password.')}
+                  className="text-xs text-blue-600 font-semibold hover:underline"
+                >
+                  Forgot Password?
+                </button>
               </div>
 
-              {/* Submit */}
               <button
                 type="submit"
                 disabled={isLoading}
@@ -141,7 +163,6 @@ export default function LoginPage() {
             </form>
           </div>
 
-          {/* Footer note */}
           <p className="text-center text-xs text-slate-400">
             Secured by 256-bit AES Encryption
           </p>
@@ -150,11 +171,6 @@ export default function LoginPage() {
 
       <footer className="py-4 px-4 flex flex-col items-center gap-1">
         <p className="text-xs text-slate-400">v 4.2.0-stable</p>
-        <div className="flex gap-4">
-          <a href="#" className="text-xs text-slate-400 hover:text-blue-600">Privacy Policy</a>
-          <span className="text-slate-300">•</span>
-          <a href="#" className="text-xs text-slate-400 hover:text-blue-600">Support</a>
-        </div>
       </footer>
     </div>
   )

@@ -1,27 +1,25 @@
-// Supabase Centralized Client Configuration for LOT Field Collection Platform
-
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
-// Read Environment Credentials
-export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://tflsmxmuvrecrewknbvb.supabase.co";
-export const SUPABASE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "sb_publishable_OAx279ocalpzqLVAhhMb-w_WdfkOWUH";
+export const SUPABASE_URL =
+  process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  "https://tflsmxmuvrecrewknbvb.supabase.co";
 
-// Singleton Client Instance
-let instance: SupabaseClient<any> | null = null;
+export const SUPABASE_ANON_KEY =
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+  "sb_publishable_OAx279ocalpzqLVAhhMb-w_WdfkOWUH";
 
-export const getSupabaseClient = (): SupabaseClient<any> => {
+let instance: SupabaseClient | null = null;
+
+export const getSupabaseClient = (): SupabaseClient => {
   if (!instance) {
-    instance = createClient<any>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    instance = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       auth: {
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true,
       },
-      realtime: {
-        params: {
-          eventsPerSecond: 20,
-        },
-      },
+      realtime: { params: { eventsPerSecond: 20 } },
     });
   }
   return instance;

@@ -4,16 +4,17 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard, Users, MapPin, FolderOpen, BarChart3,
-  Badge, Settings, LogOut, Send, ChevronRight,
+  Settings, LogOut, Send, ChevronRight,
 } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 import { getSupabaseClient } from '@/lib/supabase/client'
 import { useAuthStore } from '@/stores/useAuthStore'
+import { AuditRepository } from '@/lib/repositories/AuditRepository'
 import { toast } from 'sonner'
 
 const navItems = [
   { href: '/dashboard/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/staff', label: 'Staff Management', icon: Badge },
+  { href: '/staff', label: 'Staff Management', icon: Users },
   { href: '/monitoring', label: 'Live Monitoring', icon: MapPin },
   { href: '/portfolio', label: 'Portfolio Manager', icon: FolderOpen },
   { href: '/reports', label: 'Reports & Analytics', icon: BarChart3 },
@@ -72,7 +73,7 @@ export function Sidebar() {
 
       {/* Footer */}
       <div className="px-2 mt-4 pt-4 border-t border-slate-200 dark:border-slate-800 space-y-1">
-        <button className="w-full flex items-center justify-center gap-2 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold transition-colors shadow-sm">
+        <button onClick={() => router.push('/portfolio')} className="w-full flex items-center justify-center gap-2 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold transition-colors shadow-sm">
           <Send size={16} />
           Distribute Cases
         </button>

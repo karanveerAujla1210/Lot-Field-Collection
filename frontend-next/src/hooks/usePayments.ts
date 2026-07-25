@@ -1,35 +1,47 @@
 'use client'
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { getSupabaseClient } from '@/lib/supabase/client'
+import { useAuthStore } from '@/stores/useAuthStore'
+import { useSyncStore } from '@/stores/useSyncStore'
+import { useOfflineQueue } from '@/stores/useOfflineQueue'
+import { PaymentRepository } from '@/lib/repositories/PaymentRepository'
+import { useAuditLog } from '@/hooks/useAuditLog'
 import type { CasePayment } from '@/types/database.types'
 import type { PaymentFormData } from '@/lib/validations/payment.schema'
-import { useCaseStore } from '@/stores/useCaseStore'
 
 export function usePayments(caseId: string | null) {
   return useQuery({
     queryKey: ['payments', caseId],
-    queryFn: async (): Promise<CasePayment[]> => {
-      if (!caseId) return []
-      const supabase = getSupabaseClient()
-      const { data, error } = await supabase
-        .from('case_payments')
-        .select('*')
-        .eq('case_id', caseId)
-        .order('created_at', { ascending: false })
-        .limit(20)
-      if (error) throw error
-      return data ?? []
-    },
+    queryFn: () => PaymentRepository.findByCaseId(caseId!),
     enabled: !!caseId,
   })
 }
 
-interface SubmitPaymentArgs {
+export interface CollectionTrendPoint { month: string; amount: number }
+
+export function useCollectionTrend() {
+  return useQuery({
+    queryKey: ['payments', 'collection-trend'],
+    queryFn: async (): Promise<CollectionTrendPoint[]> => {
+      const data = await PaymentRepository.findAll()
+      const formatter = new Intl.DateTimeFormat('en-IN', { month: 'short', year: '2-digit' })
+      const totals = new Map<string, number>()
+      for (const p of data) {
+        if (!p.created_at) continue
+        const label = formatter.format(new Date(p.created_at))
+        totals.set(label, (totals.get(label) ?? 0) + Number(p.amount_paid ?? 0))
+      }
+      return Array.from(totals, ([month, amount]) => ({ month, amount })).slice(-12)
+    },
+    staleTime: 30_000,
+  })
+}
+
+export interface SubmitPaymentArgs {
   formData: PaymentFormData
   caseId: string
-  loanNo: string | null
-  customerName: string | null
+  loanNo: string
+  customerName: string
   executiveId: string
   executiveName: string
   branchName: string | null
@@ -37,11 +49,13 @@ interface SubmitPaymentArgs {
 
 export function useSubmitPayment() {
   const queryClient = useQueryClient()
+  const { isOnline } = useSyncStore()
+  const { enqueue } = useOfflineQueue()
+  const { log } = useAuditLog()
+  const { user } = useAuthStore()
 
   return useMutation({
-    mutationFn: async (args: SubmitPaymentArgs) => {
-      const supabase = getSupabaseClient()
-      const receiptNumber = `RCP-${Date.now()}`
+    mutationFn: async (args: SubmitPaymentArgs): Promise<(CasePayment & { receiptNumber: string }) | null> => {
       let reference: string | null = null
       if (args.formData.paymentMode === 'UPI') reference = args.formData.referenceUpi ?? null
       if (args.formData.paymentMode === 'CHEQUE') reference = args.formData.referenceCheque ?? null
@@ -57,18 +71,26 @@ export function useSubmitPayment() {
         amount_paid: args.formData.amount,
         payment_mode: args.formData.paymentMode,
         payment_reference: reference,
-        receipt_number: receiptNumber,
-        notes: args.formData.notes ?? `Collected on ${new Date().toISOString()}`,
+        notes: args.formData.notes ?? null,
       }
-      const { data, error } = await supabase
-        .from('case_payments')
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .insert(payload as any)
-        .select()
-        .single()
-      if (error) throw error
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return { ...(data as any), receiptNumber }
+
+      // Offline — queue for later
+      if (!isOnline) {
+        enqueue({ type: 'PAYMENT', payload: payload as unknown as Record<string, unknown> })
+        return null
+      }
+
+      const payment = await PaymentRepository.create(payload as Parameters<typeof PaymentRepository.create>[0])
+
+      log('PAYMENT_CREATED', 'case_payments', payment.id, {
+        caseId: args.caseId,
+        loanNo: args.loanNo,
+        amount: args.formData.amount,
+        mode: args.formData.paymentMode,
+        executiveId: user?.id,
+      })
+
+      return { ...payment, receiptNumber: payment.receipt_number }
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['payments', variables.caseId] })

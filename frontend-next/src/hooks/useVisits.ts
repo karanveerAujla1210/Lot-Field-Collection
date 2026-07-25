@@ -1,47 +1,44 @@
 'use client'
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { getSupabaseClient } from '@/lib/supabase/client'
+import { useAuthStore } from '@/stores/useAuthStore'
+import { useSyncStore } from '@/stores/useSyncStore'
+import { useOfflineQueue } from '@/stores/useOfflineQueue'
+import { VisitRepository } from '@/lib/repositories/VisitRepository'
+import { useAuditLog } from '@/hooks/useAuditLog'
 import type { CaseVisit } from '@/types/database.types'
 import type { VisitFormData } from '@/lib/validations/visit.schema'
 
 export function useVisits(caseId: string | null) {
   return useQuery({
     queryKey: ['visits', caseId],
-    queryFn: async (): Promise<CaseVisit[]> => {
-      if (!caseId) return []
-      const supabase = getSupabaseClient()
-      const { data, error } = await supabase
-        .from('case_visits')
-        .select('*')
-        .eq('case_id', caseId)
-        .order('created_at', { ascending: false })
-        .limit(20)
-      if (error) throw error
-      return data ?? []
-    },
+    queryFn: () => VisitRepository.findByCaseId(caseId!),
     enabled: !!caseId,
   })
 }
 
-interface SubmitVisitArgs {
+export interface SubmitVisitArgs {
   formData: VisitFormData
   caseId: string
-  loanNo: string | null
-  customerName: string | null
+  loanNo: string
+  customerName: string
   executiveId: string
   executiveName: string
   branchName: string | null
   latitude: number
   longitude: number
+  photos: File[]
 }
 
 export function useSubmitVisit() {
   const queryClient = useQueryClient()
+  const { isOnline } = useSyncStore()
+  const { enqueue } = useOfflineQueue()
+  const { log } = useAuditLog()
+  const { user } = useAuthStore()
 
   return useMutation({
-    mutationFn: async (args: SubmitVisitArgs) => {
-      const supabase = getSupabaseClient()
+    mutationFn: async (args: SubmitVisitArgs): Promise<CaseVisit | null> => {
       const payload = {
         case_id: args.caseId,
         loan_no: args.loanNo,
@@ -55,17 +52,26 @@ export function useSubmitVisit() {
         remarks: args.formData.remarks,
         promise_date: args.formData.promiseDate ?? null,
         expected_amount: args.formData.expectedAmount ?? null,
-        photos_urls: [],
+        photos_urls: [] as string[],
       }
-      const { data, error } = await supabase
-        .from('case_visits')
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .insert(payload as any)
-        .select()
-        .single()
-      if (error) throw error
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return data as any
+
+      // Offline — queue for later
+      if (!isOnline) {
+        enqueue({ type: 'VISIT', payload: payload as unknown as Record<string, unknown> })
+        return null
+      }
+
+      const photosUrls = await VisitRepository.uploadPhotos(args.caseId, args.photos)
+      const visit = await VisitRepository.create({ ...payload, photos_urls: photosUrls })
+
+      log('VISIT_CREATED', 'case_visits', visit.id, {
+        caseId: args.caseId,
+        loanNo: args.loanNo,
+        visitStatus: args.formData.visitStatus,
+        executiveId: user?.id,
+      })
+
+      return visit
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['visits', variables.caseId] })

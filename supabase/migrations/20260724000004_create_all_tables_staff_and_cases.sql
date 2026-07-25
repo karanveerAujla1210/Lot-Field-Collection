@@ -7,91 +7,12 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- 1. ROLES TABLE
-CREATE TABLE IF NOT EXISTS public.roles (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(50) NOT NULL UNIQUE,
-    code VARCHAR(50) NOT NULL UNIQUE,
-    description TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
+-- roles and branches are defined by the canonical enterprise schema migration.
 
-INSERT INTO public.roles (id, name, code, description) VALUES
-    ('10000000-0000-0000-0000-000000000001', 'Super Admin', 'SUPER_ADMIN', 'System wide full access'),
-    ('10000000-0000-0000-0000-000000000002', 'Admin', 'ADMIN', 'Administrative access'),
-    ('10000000-0000-0000-0000-000000000006', 'Field Executive', 'FIELD_EXECUTIVE', 'Field execution agent')
-ON CONFLICT (code) DO NOTHING;
+-- `public.users` is defined in 20260723000000_fincollect_schema.sql and is
+-- deliberately linked one-to-one with auth.users. Do not redefine it here.
 
--- 2. BRANCHES TABLE
-CREATE TABLE IF NOT EXISTS public.branches (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    branch_code VARCHAR(50) NOT NULL UNIQUE,
-    name VARCHAR(100) NOT NULL,
-    region VARCHAR(50) DEFAULT 'India',
-    city VARCHAR(50) NOT NULL,
-    state VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-
--- 3. USERS (STAFF) TABLE
-CREATE TABLE IF NOT EXISTS public.users (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    employee_code VARCHAR(30) NOT NULL UNIQUE,
-    full_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE,
-    phone VARCHAR(20) NOT NULL UNIQUE,
-    role_id UUID REFERENCES public.roles(id),
-    branch_id UUID REFERENCES public.branches(id),
-    status VARCHAR(20) DEFAULT 'ACTIVE',
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-
--- 4. CUSTOMERS TABLE
-CREATE TABLE IF NOT EXISTS public.customers (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    customer_code VARCHAR(50) NOT NULL UNIQUE,
-    full_name VARCHAR(100) NOT NULL,
-    phone_primary VARCHAR(20),
-    email VARCHAR(100),
-    pan_number VARCHAR(20),
-    address_residence TEXT,
-    address_office TEXT,
-    city VARCHAR(50),
-    state VARCHAR(50),
-    branch_id UUID REFERENCES public.branches(id),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-
--- 5. LOANS TABLE
-CREATE TABLE IF NOT EXISTS public.loans (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    loan_account_number VARCHAR(50) NOT NULL UNIQUE,
-    customer_id UUID REFERENCES public.customers(id) ON DELETE CASCADE,
-    branch_id UUID REFERENCES public.branches(id),
-    loan_type VARCHAR(50) DEFAULT 'Personal Loan',
-    disbursed_amount NUMERIC(14, 2) DEFAULT 0,
-    principal_outstanding NUMERIC(14, 2) DEFAULT 0,
-    total_outstanding NUMERIC(14, 2) DEFAULT 0,
-    emi_amount NUMERIC(14, 2) DEFAULT 0,
-    disbursed_date DATE,
-    repayment_date DATE,
-    dpd INT DEFAULT 0,
-    bucket VARCHAR(20) DEFAULT 'CURRENT',
-    status VARCHAR(20) DEFAULT 'ACTIVE',
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-
--- 6. ALLOCATIONS TABLE
-CREATE TABLE IF NOT EXISTS public.allocations (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    allocation_code VARCHAR(50) NOT NULL UNIQUE,
-    loan_id UUID REFERENCES public.loans(id) ON DELETE CASCADE,
-    customer_id UUID REFERENCES public.customers(id),
-    executive_id UUID REFERENCES public.users(id),
-    target_amount NUMERIC(14, 2) DEFAULT 0,
-    status VARCHAR(20) DEFAULT 'ASSIGNED',
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
+-- customers, loans, and allocations are also defined by the canonical schema.
 
 -- 7. FULL CASES TABLE (Direct map to Open & Part Cases till 20th July.xlsx)
 CREATE TABLE IF NOT EXISTS public.cases (
@@ -136,14 +57,12 @@ CREATE TABLE IF NOT EXISTS public.cases (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- DISABLE RLS FOR UNRESTRICTED CRM & APP READ/WRITE ACCESS
-ALTER TABLE public.roles DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.branches DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.users DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.customers DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.loans DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.allocations DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.cases DISABLE ROW LEVEL SECURITY;
+-- This migration must not weaken the RLS policies established earlier.
+
+-- Imported case branches do not contain a region. Keep the canonical NOT NULL
+-- column while supplying a safe default for this import and future partial rows.
+ALTER TABLE public.branches
+    ALTER COLUMN region SET DEFAULT 'India';
 
 -- SEED BRANCHES
 INSERT INTO public.branches (branch_code, name, city, state) VALUES ('BR-001', 'Bangalore', 'Bangalore', 'Bangalore') ON CONFLICT (branch_code) DO NOTHING;
@@ -177,17 +96,8 @@ INSERT INTO public.branches (branch_code, name, city, state) VALUES ('BR-028', '
 INSERT INTO public.branches (branch_code, name, city, state) VALUES ('BR-029', 'Guntur', 'Guntur', 'Andhra Pradesh') ON CONFLICT (branch_code) DO NOTHING;
 INSERT INTO public.branches (branch_code, name, city, state) VALUES ('BR-030', 'Gautam Buddha Nagar', 'Gautam Buddha Nagar', 'Uttar Pradesh') ON CONFLICT (branch_code) DO NOTHING;
 
--- SEED STAFF / FIELD EXECUTIVES DATA
-INSERT INTO public.users (employee_code, full_name, email, phone, role_id, branch_id) VALUES ('EMP001', 'Jitendra', 'jitendra@lotfieldcollection.com', '9449477443', '10000000-0000-0000-0000-000000000006', (SELECT id FROM public.branches WHERE branch_code = 'BR-001' LIMIT 1)) ON CONFLICT (phone) DO UPDATE SET full_name = EXCLUDED.full_name;
-INSERT INTO public.users (employee_code, full_name, email, phone, role_id, branch_id) VALUES ('EMP002', 'Sushant', 'sushant@lotfieldcollection.com', '8700413312', '10000000-0000-0000-0000-000000000006', (SELECT id FROM public.branches WHERE branch_code = 'BR-002' LIMIT 1)) ON CONFLICT (phone) DO UPDATE SET full_name = EXCLUDED.full_name;
-INSERT INTO public.users (employee_code, full_name, email, phone, role_id, branch_id) VALUES ('EMP003', 'Rahul', 'rahul@lotfieldcollection.com', '7042793573', '10000000-0000-0000-0000-000000000006', (SELECT id FROM public.branches WHERE branch_code = 'BR-003' LIMIT 1)) ON CONFLICT (phone) DO UPDATE SET full_name = EXCLUDED.full_name;
-INSERT INTO public.users (employee_code, full_name, email, phone, role_id, branch_id) VALUES ('EMP004', 'Imteyaz', 'imteyaz@lotfieldcollection.com', '8100669081', '10000000-0000-0000-0000-000000000006', (SELECT id FROM public.branches WHERE branch_code = 'BR-004' LIMIT 1)) ON CONFLICT (phone) DO UPDATE SET full_name = EXCLUDED.full_name;
-INSERT INTO public.users (employee_code, full_name, email, phone, role_id, branch_id) VALUES ('EMP005', 'Anil', 'anil@lotfieldcollection.com', '8320109581', '10000000-0000-0000-0000-000000000006', (SELECT id FROM public.branches WHERE branch_code = 'BR-005' LIMIT 1)) ON CONFLICT (phone) DO UPDATE SET full_name = EXCLUDED.full_name;
-INSERT INTO public.users (employee_code, full_name, email, phone, role_id, branch_id) VALUES ('EMP006', 'Prince', 'prince@lotfieldcollection.com', '6302703146', '10000000-0000-0000-0000-000000000006', (SELECT id FROM public.branches WHERE branch_code = 'BR-007' LIMIT 1)) ON CONFLICT (phone) DO UPDATE SET full_name = EXCLUDED.full_name;
-INSERT INTO public.users (employee_code, full_name, email, phone, role_id, branch_id) VALUES ('EMP007', 'Abhishek', 'abhishek@lotfieldcollection.com', '9908923165', '10000000-0000-0000-0000-000000000006', (SELECT id FROM public.branches WHERE branch_code = 'BR-007' LIMIT 1)) ON CONFLICT (phone) DO UPDATE SET full_name = EXCLUDED.full_name;
-INSERT INTO public.users (employee_code, full_name, email, phone, role_id, branch_id) VALUES ('EMP008', 'Vijay', 'vijay@lotfieldcollection.com', '9579527355', '10000000-0000-0000-0000-000000000006', (SELECT id FROM public.branches WHERE branch_code = 'BR-008' LIMIT 1)) ON CONFLICT (phone) DO UPDATE SET full_name = EXCLUDED.full_name;
-INSERT INTO public.users (employee_code, full_name, email, phone, role_id, branch_id) VALUES ('EMP009', 'Roshan', 'roshan@lotfieldcollection.com', '9321048358', '10000000-0000-0000-0000-000000000006', (SELECT id FROM public.branches WHERE branch_code = 'BR-009' LIMIT 1)) ON CONFLICT (phone) DO UPDATE SET full_name = EXCLUDED.full_name;
-INSERT INTO public.users (employee_code, full_name, email, phone, role_id, branch_id) VALUES ('EMP010', 'Ketan', 'ketan@lotfieldcollection.com', '7385313114', '10000000-0000-0000-0000-000000000006', (SELECT id FROM public.branches WHERE branch_code = 'BR-010' LIMIT 1)) ON CONFLICT (phone) DO UPDATE SET full_name = EXCLUDED.full_name;
+-- Auth-linked staff are provisioned by `handle_new_user`; this migration must
+-- not insert profiles whose IDs do not exist in auth.users.
 
 -- SEED EXCEL OPEN & PART CASES DATA (668 RECORDS)
 INSERT INTO public.cases (

@@ -2,13 +2,13 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Car, CreditCard, User } from 'lucide-react'
+import { LayoutDashboard, Users, Clock, CreditCard, User } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 
 const navItems = [
   { href: '/dashboard', label: 'Home', icon: LayoutDashboard },
   { href: '/customers', label: 'Customers', icon: Users },
-  { href: '/visits/new', label: 'Visit', icon: Car },
+  { href: '/follow-ups', label: 'Follow-ups', icon: Clock },
   { href: '/payments/new', label: 'Payment', icon: CreditCard },
   { href: '/profile', label: 'Profile', icon: User },
 ]
@@ -23,7 +23,7 @@ export function BottomNav() {
           const active = pathname === href || pathname.startsWith(href + '/')
           return (
             <Link
-              key={href}
+              key={label}
               href={href}
               className={cn(
                 'flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors',

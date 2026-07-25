@@ -1,28 +1,5 @@
 {
   "version": 2,
-  "name": "lot-field-collection-crm",
-  "outputDirectory": "frontend",
-  "cleanUrls": true,
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/index.html",
-      "permanent": false
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "X-Requested-With, Content-Type, Authorization"
-        }
-      ]
-    }
-  ]
+  "buildCommand": "npm run build --workspace=frontend-next",
+  "installCommand": "npm install"
 }

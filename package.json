@@ -3,18 +3,23 @@
   "version": "1.0.0",
   "description": "LOT Field Collection - Enterprise Field Collection Platform (Monorepo Root)",
   "private": true,
+  "workspaces": [
+    "frontend-next",
+    "backend"
+  ],
   "scripts": {
-    "dev": "npx -y http-server ./frontend -p 3000 -c-1 --cors",
-    "build:backend": "cd backend && tsc",
-    "type-check": "cd backend && tsc --noEmit",
-    "build:www": "node scripts/build-www.js",
-    "start": "npm run dev"
+    "dev": "npm run dev --workspace=frontend-next",
+    "dev:backend": "npm run dev --workspace=backend",
+    "build": "npm run build --workspace=frontend-next",
+    "build:backend": "npm run build --workspace=backend",
+    "build:mobile": "npm run build --workspace=frontend-next && node scripts/build-www.js",
+    "type-check": "npm run type-check --workspace=backend",
+    "start": "npm run start --workspace=frontend-next",
+    "lint": "npm run lint --workspace=frontend-next"
   },
   "dependencies": {
     "@capacitor/android": "^8.0.0",
-    "@capacitor/core": "^8.0.0",
-    "@supabase/supabase-js": "^2.45.0",
-    "xlsx": "^0.18.5"
+    "@capacitor/core": "^8.0.0"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.4.2",

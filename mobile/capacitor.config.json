@@ -1,6 +1,14 @@
 {
   "appId": "com.lotfieldcollection.app",
   "appName": "LOT Field Collection",
-  "webDir": "www",
-  "bundledWebRuntime": false
+  "webDir": "../frontend-next/out",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#1d4ed8"
+    }
+  }
 }
